@@ -2302,3 +2302,203 @@ table {
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-glow, #hero::after { animation: none; }
 }
+
+
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE / TABLET RESPONSIVE LAYER (additive, mobile-first overrides)
+   Targets:
+     • ≤900px — tablets and large phones (landscape)
+     • ≤640px — phones (portrait)
+     • ≤380px — small phones (iPhone SE etc.)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Foundation: prevent horizontal scroll, touch-friendly defaults */
+html, body { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+img, video, canvas, svg { max-width: 100%; height: auto; }
+
+/* Touch targets — every interactive element ≥44×44 (Apple HIG / Material) */
+button, a, [role="button"], input[type="range"], input[type="checkbox"], select {
+  min-height: 44px;
+}
+.preset-btn, .try-it-btn, .install-btn { min-height: 44px; padding: 10px 16px; }
+
+/* Tables — always horizontally scrollable on small screens */
+table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Plots and images — never overflow, allow native zoom */
+.finding-plot, .plot, img.plot, .finding-plot-block img {
+  width: 100%; max-width: 100%; height: auto; display: block;
+}
+
+/* ──────────────── TABLET / LARGE PHONE (≤900px) ──────────────── */
+@media (max-width: 900px) {
+  /* Container padding shrinks */
+  .container, .hero-grid, .finding > .container { padding-left: 16px; padding-right: 16px; }
+
+  /* Reduce excessive vertical spacing */
+  section, .finding { padding-top: 48px; padding-bottom: 48px; }
+
+  /* Hero title sizing */
+  .hero-title, h1 { font-size: clamp(28px, 7vw, 44px); line-height: 1.15; }
+  .hero-subtitle, .hero-sub { font-size: clamp(15px, 3.5vw, 18px); }
+
+  /* Hero stats — 4 cols → 2 cols */
+  .hero-stats, .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+
+  /* Section headings */
+  .finding-title, h2 { font-size: clamp(22px, 5vw, 32px); line-height: 1.2; }
+
+  /* Cards padding tighter */
+  .stat, .finding-nav-card, .contribution-card { padding: 16px; }
+
+  /* Plot block padding */
+  .finding-plot-block { padding: 12px; }
+  .finding-plot-label { font-size: 13px; }
+  .finding-plot-caption { font-size: 13px; line-height: 1.45; }
+
+  /* Methodology lists */
+  .finding-methodology { padding: 16px; }
+  .methodology-list li { font-size: 14px; line-height: 1.5; }
+}
+
+/* ──────────────── PHONE PORTRAIT (≤640px) ──────────────── */
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+
+  /* Navigation — keep logo + install, collapse links */
+  .main-nav { gap: 4px; flex-wrap: wrap; }
+  .main-nav a {
+    font-size: 13px; padding: 8px 10px;
+    border-radius: 8px;
+  }
+  /* Hide deep-link items on very narrow nav; keep only essentials */
+  .main-nav .nav-secondary { display: none; }
+
+  /* Install button: compact on mobile */
+  .install-btn { padding: 8px 12px; font-size: 13px; }
+  .install-btn span, .install-btn-text { display: none; } /* icon-only if both exist */
+
+  /* Hero — stack stats vertically (2x2 collapses to 1 column on very narrow) */
+  .hero-stats, .stats-grid { gap: 10px; }
+  .stat { padding: 14px; }
+  .stat-num { font-size: clamp(28px, 9vw, 40px); }
+  .stat-label { font-size: 12px; }
+
+  /* Findings nav cards — full width */
+  .findings-nav-grid { grid-template-columns: 1fr !important; gap: 12px; }
+  .finding-nav-card { padding: 16px; min-height: 96px; }
+  .finding-nav-title { font-size: 15px; }
+  .finding-nav-num { font-size: 11px; letter-spacing: 0.08em; }
+
+  /* Contributions */
+  .contributions-grid { grid-template-columns: 1fr !important; gap: 12px; }
+  .contribution-card { padding: 16px; }
+
+  /* Finding stats (4 stats per finding) — 2x2 on phone */
+  .finding-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+  .finding-stat { padding: 12px; }
+  .finding-stat-label { font-size: 11px; }
+  .finding-stat-value { font-size: clamp(20px, 6vw, 28px); }
+
+  /* Plots block padding minimal */
+  .finding-plot-block { padding: 10px; border-radius: 12px; }
+  .finding-plot { border-radius: 8px; }
+
+  /* Tables: scroll hint via overflow */
+  table { font-size: 13px; }
+  table th, table td { padding: 8px 10px; white-space: nowrap; }
+
+  /* Try-it section — vertical stack of inputs and verdict */
+  .try-it-grid, .try-it-content {
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+  .try-it-section { padding: 20px 14px; }
+  .slider-row { gap: 6px; margin-bottom: 14px; }
+  .slider-label { font-size: 14px; }
+  .slider-value { font-size: 14px; }
+  /* Verdict gauge full-width and prominent */
+  .verdict-display, .verdict-card { padding: 18px; }
+  .verdict-label { font-size: 22px; }
+  /* Preset buttons stack to 2 cols on phone */
+  .presets-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; }
+  .preset-btn { padding: 12px; min-height: 56px; }
+
+  /* Finding subtitles */
+  .finding-subtitle { font-size: 15px; line-height: 1.55; }
+
+  /* Methodology */
+  .methodology-list { padding-left: 18px; }
+  .methodology-list li { font-size: 13.5px; margin-bottom: 8px; }
+
+  /* Banners */
+  .finding-banner { padding: 12px 14px; }
+  .finding-banner-text { font-size: 13px; }
+
+  /* Footer stacks */
+  .site-footer, footer { padding: 24px 16px; }
+  .footer-grid, .footer-cols { grid-template-columns: 1fr !important; gap: 18px; text-align: left; }
+
+  /* Disable expensive decorative animations on mobile (battery + clarity) */
+  #hero::after { display: none; }   /* second drifting blob */
+  .hero-glow { opacity: 0.55; }      /* main blob softened */
+
+  /* Section padding tighter */
+  section, .finding { padding-top: 36px; padding-bottom: 36px; }
+
+  /* Headings */
+  .finding-title, h2 { font-size: clamp(20px, 5.5vw, 28px); }
+  /* Gradient underline shorter on mobile */
+  .finding-title::after { width: 48px; }
+}
+
+/* ──────────────── SMALL PHONE (≤380px — iPhone SE etc.) ──────────────── */
+@media (max-width: 380px) {
+  body { font-size: 14px; }
+  .container, .hero-grid, .finding > .container { padding-left: 12px; padding-right: 12px; }
+
+  /* Hero stats stack vertically on tiny screens */
+  .hero-stats, .stats-grid { grid-template-columns: 1fr !important; }
+  .stat-num { font-size: 32px; }
+
+  /* Finding stats also stack */
+  .finding-stats { grid-template-columns: 1fr !important; }
+
+  /* Logo mark smaller to make room for nav */
+  .logo-mark { width: 40px; height: 40px; font-size: 16px; }
+  .logo-text { font-size: 14px; }
+
+  /* Presets single column */
+  .presets-grid { grid-template-columns: 1fr !important; }
+
+  /* Nav — only logo + install visible, links wrap */
+  .main-nav a { font-size: 12px; padding: 6px 8px; }
+}
+
+/* ──────────────── LANDSCAPE PHONES (short height) ──────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Reduce hero vertical padding when landscape on phone */
+  .hero { padding-top: 32px; padding-bottom: 32px; }
+  .hero-title { font-size: 28px; }
+  .hero-glow { opacity: 0.4; }
+}
+
+/* ──────────────── ULTRA-WIDE (≥1600px) — gentle cap, not full width ──────────────── */
+@media (min-width: 1600px) {
+  .container, .hero-grid, .finding > .container { max-width: 1280px; }
+}
+
+/* ──────────────── REDUCED MOTION ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-glow, #hero::after, .logo-mark { animation: none !important; }
+}
+
+/* ──────────────── DARK MODE OS preference (optional polish) ──────────────── */
+/* (нет тёмной темы у нас — пропускаем; светлая остаётся всегда) */
