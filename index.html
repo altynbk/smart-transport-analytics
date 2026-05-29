@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1A3A5C">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="STA">
+  <title>Smart Transport Analytics — AITU Diploma 2026</title>
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+
+  <!-- Icons -->
+  <script src="vendor/lucide.min.js"></script>
+
+  <!-- ONNX Runtime Web -->
+  <script src="vendor/onnxruntime/ort.min.js"></script>
+  <script>if(window.ort){ort.env.wasm.wasmPaths="vendor/onnxruntime/";}</script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- header -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="#hero" class="logo">
+      <div class="logo-mark">STA</div>
+      <div class="logo-text">
+        <div class="logo-line-1">Smart Transport Analytics</div>
+        <div class="logo-line-2">AITU Diploma · 2026</div>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a href="#try-it">Try it</a>
+      <a href="#finding-1">Scania APS</a>
+      <a href="#finding-2">VED</a>
+      <a href="#finding-3">OBD-II</a>
+      <a href="#finding-4">CAN</a>
+      <a href="#finding-5">Field</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <button id="install-btn" class="install-btn" title="Install as an app">
+      <i data-lucide="download"></i> Install app
+    </button>
+  </div>
+</header>
+
+<!-- hero -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-meta">
+      <span>Bachelor Diploma Project</span>
+      <span class="hero-meta-divider">·</span>
+      <span>School of Intelligent Systems</span>
+      <span class="hero-meta-divider">·</span>
+      <span>2026</span>
+    </div>
+
+    <h1 class="hero-title">
+      Predicting vehicle breakdowns from <span class="accent">telematics</span> and <span class="accent has-tooltip" data-tooltip="Controller Area Network — the internal bus that lets a car's engine, brakes, transmission and other ECUs communicate with each other.">CAN data</span>.
+    </h1>
+
+    <p class="hero-desc">
+      End-to-end machine-learning pipeline across four real-world vehicle datasets,
+      with rigorous cost-sensitive evaluation and full client-side <span class="has-tooltip" data-tooltip="Open Neural Network Exchange — a portable model format. Our trained models run directly in your browser via ONNX Runtime Web; nothing is sent to a server.">ONNX</span> deployment.
+      Try the interactive <span class="has-tooltip" data-tooltip="On-Board Diagnostics II — the standardized port and protocol present in every car made after 1996; lets you read engine sensor data with a $15 dongle.">OBD-II</span> stress detector below — it runs entirely in your browser.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num"><span class="mono">4</span></div>
+        <div class="stat-label">Real-world datasets</div>
+        <div class="stat-sub">Scania · VED · OBD-II · CAN</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="mono">7</span></div>
+        <div class="stat-label">Trained models</div>
+        <div class="stat-sub">XGBoost · IF · multiclass</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="mono">24</span><span class="stat-unit">M</span></div>
+        <div class="stat-label">Telemetry readings</div>
+        <div class="stat-sub">Processed end-to-end</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="mono">22</span><span class="stat-unit">µs</span></div>
+        <div class="stat-label">Inference latency</div>
+        <div class="stat-sub">ONNX, batched</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- try it — interactive obd-ii stress detector -->
+<section id="try-it">
+  <div class="container">
+
+    <div class="tryit-header">
+      <div class="tryit-eyebrow">
+        <i data-lucide="zap"></i>
+        <span>Live inference · in your browser</span>
+      </div>
+      <h2 class="tryit-title">Try the OBD-II stress detector</h2>
+      <p class="tryit-sub">
+        Adjust the six sensor sliders and watch the model classify mechanical stress in
+        real time. Three presets demonstrate canonical scenarios. Inference runs entirely
+        in your browser through ONNX Runtime Web — no server required.
+      </p>
+      <div class="tryit-status" id="obd-model-status">
+        <i data-lucide="loader"></i>
+        <span>Loading model…</span>
+      </div>
+    </div>
+
+    <!-- Preset buttons -->
+    <div class="tryit-presets">
+      <button class="preset-btn preset-safe" data-scenario="normal">
+        <div class="preset-icon"><i data-lucide="check-circle"></i></div>
+        <div class="preset-content">
+          <div class="preset-title">Normal driving</div>
+          <div class="preset-sub">Calm cruise, all sensors in range</div>
+        </div>
+      </button>
+      <button class="preset-btn preset-warn" data-scenario="diagnostic">
+        <div class="preset-icon"><i data-lucide="alert-circle"></i></div>
+        <div class="preset-content">
+          <div class="preset-title">Diagnostic needed</div>
+          <div class="preset-sub">Some sensors out of range</div>
+        </div>
+      </button>
+      <button class="preset-btn preset-danger" data-scenario="critical">
+        <div class="preset-icon"><i data-lucide="alert-triangle"></i></div>
+        <div class="preset-content">
+          <div class="preset-title">Critical condition</div>
+          <div class="preset-sub">Severe stress detected</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Main grid: sliders + verdict -->
+    <div class="tryit-grid">
+
+      <div class="tryit-sliders" id="sliders-container">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="tryit-verdict">
+
+        <div class="verdict-badge" id="verdict-badge">
+          <div class="verdict-icon" id="verdict-icon">
+            <i data-lucide="check-circle"></i>
+          </div>
+          <div class="verdict-text">
+            <div class="verdict-label" id="verdict-label">SAFE TO DRIVE</div>
+          </div>
+        </div>
+
+        <div class="verdict-gauge">
+          <div class="gauge-header">
+            <span class="gauge-label">Failure risk</span>
+            <span class="gauge-value mono" id="gauge-value">0%</span>
+          </div>
+          <div class="gauge-bar">
+            <div class="gauge-zones">
+              <div class="gauge-zone gauge-zone-safe"></div>
+              <div class="gauge-zone gauge-zone-warn"></div>
+              <div class="gauge-zone gauge-zone-danger"></div>
+            </div>
+            <div class="gauge-marker" id="gauge-marker"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>Safe</span>
+            <span>Diagnostic</span>
+            <span>Critical</span>
+          </div>
+        </div>
+
+        <div class="verdict-contributors">
+          <div class="contributors-header">
+            <i data-lucide="info"></i>
+            <span>Sensors needing attention</span>
+          </div>
+          <ul class="contributors-list" id="contributors-list">
+            <li class="contrib-empty">All sensors within normal ranges.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- pipeline overview + contributions -->
+<section id="pipeline">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="section-eyebrow">
+        <i data-lucide="git-branch"></i>
+        <span>End-to-end architecture</span>
+      </div>
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">
+        Public datasets feed four trained models. All export to ONNX —
+        a portable format that runs anywhere, including directly in your browser.
+        One pipeline, one model format, one runtime.
+      </p>
+    </div>
+
+    <div class="pipeline-diagram">
+      <div class="pipeline-stage">
+        <div class="pipeline-icon"><i data-lucide="database"></i></div>
+        <div class="pipeline-stage-title">4 Datasets</div>
+        <div class="pipeline-stage-sub">Scania APS · VED<br>OBD-II · CAN HCRL</div>
+      </div>
+      <div class="pipeline-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="pipeline-stage">
+        <div class="pipeline-icon"><i data-lucide="cpu"></i></div>
+        <div class="pipeline-stage-title">Training</div>
+        <div class="pipeline-stage-sub">XGBoost &times; 6<br>Isolation Forest</div>
+      </div>
+      <div class="pipeline-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="pipeline-stage">
+        <div class="pipeline-icon"><i data-lucide="package"></i></div>
+        <div class="pipeline-stage-title">ONNX Export</div>
+        <div class="pipeline-stage-sub">7 models<br>portable format</div>
+      </div>
+      <div class="pipeline-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="pipeline-stage">
+        <div class="pipeline-icon"><i data-lucide="globe"></i></div>
+        <div class="pipeline-stage-title">Browser Inference</div>
+        <div class="pipeline-stage-sub">ONNX Runtime Web<br>no server needed</div>
+      </div>
+    </div>
+
+    <div class="contributions">
+      <div class="contributions-eyebrow">
+        <i data-lucide="check-circle"></i>
+        <span>What's new in this work</span>
+      </div>
+      <div class="contributions-grid">
+        <div class="contribution-card">
+          <div class="contribution-num">01</div>
+          <div class="contribution-title">Cross-file CAN evaluation</div>
+          <div class="contribution-text">
+            We quantify the <strong>46.7 pp</strong> leakage gap that published
+            CAN-IDS works don't measure — by training on one attack file and
+            testing on a different one.
+          </div>
+        </div>
+        <div class="contribution-card">
+          <div class="contribution-num">02</div>
+          <div class="contribution-title">Full client-side ONNX deployment</div>
+          <div class="contribution-text">
+            7 models export to portable ONNX. OBD-II inference runs in your
+            browser in <strong>microseconds</strong>, with no server roundtrip.
+          </div>
+        </div>
+        <div class="contribution-card">
+          <div class="contribution-num">03</div>
+          <div class="contribution-title">Cost-sensitive APS optimization</div>
+          <div class="contribution-text">
+            Threshold tuning at τ=0.005994 reaches Total Cost <strong>8,910</strong>
+            on the Scania benchmark — rank <strong>5 of 13</strong> vs published baselines.
+          </div>
+        </div>
+        <a href="#finding-5" class="contribution-card contribution-card-link">
+          <div class="contribution-num">04</div>
+          <div class="contribution-title">Field validation pipeline</div>
+          <div class="contribution-text">
+            Self-collected OBD-II telemetry from our own vehicles validates the
+            synthetic-trained model in real-world driving conditions.
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- findings nav -->
+<section id="findings-nav">
+  <div class="container">
+    <div class="findings-nav-grid">
+      <a href="#finding-1" class="finding-nav-card finding-nav-headline">
+        <div class="finding-nav-num">FINDING 01 · HEADLINE</div>
+        <div class="finding-nav-title">Scania APS failure prediction</div>
+        <div class="finding-nav-result">Total Cost <strong>8,910</strong> · rank <strong>5/13</strong></div>
+      </a>
+      <a href="#finding-2" class="finding-nav-card">
+        <div class="finding-nav-num">FINDING 02</div>
+        <div class="finding-nav-title">VED driver behavior</div>
+        <div class="finding-nav-result">Top-20 trips · <strong>2 clusters</strong></div>
+      </a>
+      <a href="#finding-3" class="finding-nav-card">
+        <div class="finding-nav-num">FINDING 03</div>
+        <div class="finding-nav-title">OBD-II stress detector</div>
+        <div class="finding-nav-result">3-class · accuracy <strong id="nav-obd-acc">—</strong></div>
+      </a>
+      <a href="#finding-4" class="finding-nav-card finding-nav-critical">
+        <div class="finding-nav-num">FINDING 04 · CRITICAL</div>
+        <div class="finding-nav-title">CAN cross-file leakage</div>
+        <div class="finding-nav-result">Gap <strong>46.7%</strong> after tuning</div>
+      </a>
+      <a href="#finding-5" class="finding-nav-card finding-nav-field">
+        <div class="finding-nav-num">FINDING 05 · DEPLOYMENT</div>
+        <div class="finding-nav-title">Real-world field validation</div>
+        <div class="finding-nav-result"><span id="nav-field-trips">—</span> trip(s) · <span id="nav-field-hours">—</span> h</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- finding 01 — scania aps -->
+<section id="finding-1" class="finding">
+  <div class="container">
+
+    <div class="finding-header">
+      <div class="finding-tag finding-tag-headline">FINDING 01 · HEADLINE RESULT</div>
+      <h2 class="finding-title">XGBoost ranks 5th out of 13 published baselines on Scania APS</h2>
+      <p class="finding-subtitle">
+        Industry-standard IDA 2016 cost matrix (FP = 10, FN = 500). One hyperparameter
+        — the decision threshold — cuts Total Cost by 36% over the default. No resampling,
+        no synthetic features, no two-stage hacks.
+      </p>
+    </div>
+
+    <div class="finding-stats">
+      <div class="finding-stat finding-stat-primary">
+        <div class="finding-stat-label">Total Cost</div>
+        <div class="finding-stat-num mono" id="aps-total-cost">8,910</div>
+        <div class="finding-stat-sub">vs default (τ=0.5): 14,180</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label"><span class="has-tooltip" data-tooltip="Area Under the ROC Curve — measures how well a binary classifier separates positives from negatives across all thresholds. 0.5 = random, 1.0 = perfect.">ROC AUC</span></div>
+        <div class="finding-stat-num mono" id="aps-auc">0.9958</div>
+        <div class="finding-stat-sub">on 16,000 test trucks</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Ranking</div>
+        <div class="finding-stat-num mono" id="aps-rank">5/13</div>
+        <div class="finding-stat-sub">vs published baselines</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Improvement</div>
+        <div class="finding-stat-num mono" id="aps-improvement">37.2%</div>
+        <div class="finding-stat-sub">over default threshold</div>
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label">Published baselines comparison</div>
+      <img src="assets/plots/aps_05_baseline_comparison.png" alt="Baselines" class="finding-plot">
+      <div class="finding-plot-caption">
+        Ranked against 12 prior published works on the same Scania APS test set.
+        Our XGBoost+threshold approach ranks 5th, in-line with published XGBoost benchmarks.
+        Right panel shows the FP/FN trade-off space — our point sits inside the cost-efficient region.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- finding 02 — ved -->
+<section id="finding-2" class="finding">
+  <div class="container">
+
+    <div class="finding-header">
+      <div class="finding-tag">FINDING 02</div>
+      <h2 class="finding-title">Unsupervised anomaly detection on 32K trips reveals two behavioral clusters</h2>
+      <p class="finding-subtitle">
+        Isolation Forest on aggregated trip-level features from the Vehicle Energy Dataset
+        (University of Michigan, 384 vehicles, 22.4M telemetry readings) identifies the
+        most anomalous driving sessions across the fleet.
+      </p>
+    </div>
+
+    <div class="finding-stats">
+      <div class="finding-stat finding-stat-primary">
+        <div class="finding-stat-label">Trips analyzed</div>
+        <div class="finding-stat-num mono">32,452</div>
+        <div class="finding-stat-sub">across 384 vehicles</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Top trip score</div>
+        <div class="finding-stat-num mono">0.700</div>
+        <div class="finding-stat-sub">V189 T2030 (122 min idle)</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Idle ratio</div>
+        <div class="finding-stat-num mono">22x</div>
+        <div class="finding-stat-sub">top-20 vs fleet average</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Clusters</div>
+        <div class="finding-stat-num mono">2</div>
+        <div class="finding-stat-sub">Idle &amp; aggressive</div>
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label">Driver behavior clusters</div>
+      <img src="assets/plots/ved_03_clusters.png" alt="VED clusters" class="finding-plot">
+      <div class="finding-plot-caption">
+        Two distinct anomaly clusters emerge in the speed–idle landscape:
+        prolonged-idle vehicles (V189, V169, V503) and aggressive-driving vehicles
+        (V492, V545, V569). Different signatures, both flagged by Isolation Forest.
+      </div>
+    </div>
+
+    <div class="finding-table-block">
+      <div class="finding-table-label">Top 10 most anomalous trips</div>
+      <div class="finding-table-wrap">
+        <table class="finding-table" id="ved-top-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Vehicle</th>
+              <th>Trip</th>
+              <th>Score</th>
+              <th>Speed mean</th>
+              <th>RPM max</th>
+              <th>Idle %</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- finding 03 — obd-ii stress detector -->
+<section id="finding-3" class="finding">
+  <div class="container">
+
+    <div class="finding-header">
+      <div class="finding-tag">FINDING 03</div>
+      <h2 class="finding-title">Real-time mechanical stress classification from six standard OBD-II sensors</h2>
+      <p class="finding-subtitle">
+        XGBoost multiclass classifier trained on rule-based labels grounded in
+        automotive engineering best practices. <strong>The interactive demo is at the top of this page.</strong>
+      </p>
+    </div>
+
+    <div class="finding-stats">
+      <div class="finding-stat finding-stat-primary">
+        <div class="finding-stat-label">Test accuracy</div>
+        <div class="finding-stat-num mono" id="obd-accuracy">—</div>
+        <div class="finding-stat-sub">3-class softmax</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Input features</div>
+        <div class="finding-stat-num mono">6</div>
+        <div class="finding-stat-sub">standard ELM327 PIDs</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Output classes</div>
+        <div class="finding-stat-num mono">3</div>
+        <div class="finding-stat-sub">Normal / Diagnostic / Critical</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Top feature</div>
+        <div class="finding-stat-num mono" style="font-size: 22px">RPM</div>
+        <div class="finding-stat-sub">followed by coolant temp</div>
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label"><span class="has-tooltip" data-tooltip="SHAP (SHapley Additive exPlanations) — measures how much each input feature contributes to a model's prediction, based on cooperative game theory.">SHAP</span> feature importance</div>
+      <img src="assets/plots/obd_03_shap.png" alt="OBD SHAP" class="finding-plot">
+      <div class="finding-plot-caption">
+        Engine RPM dominates as expected — it indicates aggressive acceleration and
+        high mechanical load. Coolant temperature is second (overheating risk).
+      </div>
+    </div>
+
+    <div class="finding-methodology">
+      <div class="methodology-title">Methodology note · synthetic labels</div>
+      <ul class="methodology-list">
+        <li><strong>Why synthetic labels:</strong> Public OBD-II datasets contain normal city driving without labelled faults.</li>
+        <li><strong>How we label:</strong> Engineering rules grounded in Bosch Automotive Handbook and SAE J1979 specifications.</li>
+        <li><strong>What this proves:</strong> The pipeline works end-to-end — OBD readings to browser-side verdict in microseconds.</li>
+        <li><strong>Future work:</strong> Collect labelled fault data from our own vehicles via ELM327 dongle.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- finding 04 — can intrusion (with bus animation) -->
+<section id="finding-4" class="finding finding-critical">
+  <div class="container">
+
+    <div class="finding-header">
+      <div class="finding-tag finding-tag-critical">
+        <i data-lucide="alert-triangle"></i>
+        FINDING 04 · CRITICAL METHODOLOGY RESULT
+      </div>
+      <h2 class="finding-title">CAN intrusion detection collapses 97% when evaluated across attack files</h2>
+      <p class="finding-subtitle">
+        Most published CAN-IDS papers report near-perfect <span class="has-tooltip" data-tooltip="F1 score combines precision and recall into one number from 0 to 1. F1 = 1.00 means the model catches every attack with zero false alarms.">F1</span> from single-file random splits.
+        We trained 4 separate models — one per attack type — and tested each across all
+        four attack files to quantify <span class="has-tooltip" data-tooltip="Data leakage — when information from the test set inadvertently appears in training, inflating performance. Our cross-file evaluation breaks this leakage.">leakage</span>.
+      </p>
+    </div>
+
+    <!-- CAN BUS VISUALIZATION (simplified — horizontal frame flow with shield) -->
+    <div class="can-viz">
+      <div class="can-vehicle">
+        <div class="can-car">
+          <div class="can-car-icon">🚗</div>
+          <div class="can-car-label">Vehicle CAN bus</div>
+        </div>
+        <div class="can-bus-line"></div>
+        <div class="can-frame normal" style="--delay: 0s"></div>
+        <div class="can-frame normal" style="--delay: 0.4s"></div>
+        <div class="can-frame normal" style="--delay: 0.8s"></div>
+        <div class="can-frame attack dos" style="--delay: 1.2s" data-label="DoS"></div>
+        <div class="can-frame normal" style="--delay: 1.6s"></div>
+        <div class="can-frame attack fuzzy" style="--delay: 2.0s" data-label="Fuzzy"></div>
+        <div class="can-frame normal" style="--delay: 2.4s"></div>
+        <div class="can-frame attack gear" style="--delay: 2.8s" data-label="Gear"></div>
+        <div class="can-frame normal" style="--delay: 3.2s"></div>
+        <div class="can-frame attack rpm" style="--delay: 3.6s" data-label="RPM"></div>
+        <div class="can-shield">
+          <div class="can-shield-icon">🛡️</div>
+          <div class="can-shield-label">Detector</div>
+        </div>
+      </div>
+
+      <div class="can-attack-cards">
+        <div class="can-card dos">
+          <div class="can-card-pulse"></div>
+          <div class="can-val">F1 = 1.00</div>
+          <div class="can-name">
+            <span class="has-tooltip" data-tooltip="Denial-of-Service — attacker floods the bus with high-priority frames so legitimate ECUs cannot transmit.">DoS attack</span>
+          </div>
+          <div class="can-text">Flooding the bus with high-priority frames</div>
+        </div>
+        <div class="can-card fuzzy">
+          <div class="can-card-pulse"></div>
+          <div class="can-val">F1 = 1.00</div>
+          <div class="can-name">Fuzzy attack</div>
+          <div class="can-text">Random CAN IDs injected to confuse modules</div>
+        </div>
+        <div class="can-card gear">
+          <div class="can-card-pulse"></div>
+          <div class="can-val">F1 = 1.00</div>
+          <div class="can-name">Gear spoofing</div>
+          <div class="can-text">Faking the transmission gear-position message</div>
+        </div>
+        <div class="can-card rpm">
+          <div class="can-card-pulse"></div>
+          <div class="can-val">F1 = 1.00</div>
+          <div class="can-name">RPM spoofing</div>
+          <div class="can-text">Broadcasting fake engine-speed values</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="finding-stats">
+      <div class="finding-stat finding-stat-naive">
+        <div class="finding-stat-label">
+          Same-file F1
+          <span class="badge-warning">Leakage-prone</span>
+        </div>
+        <div class="finding-stat-num mono">1.0000</div>
+        <div class="finding-stat-sub">Standard published evaluation</div>
+      </div>
+      <div class="finding-stat finding-stat-naive">
+        <div class="finding-stat-label">
+          Cross-file F1
+          <span class="badge-warning">Default τ</span>
+        </div>
+        <div class="finding-stat-num mono">0.030</div>
+        <div class="finding-stat-sub">97% drop</div>
+      </div>
+      <div class="finding-stat finding-stat-honest">
+        <div class="finding-stat-label">
+          Cross-file F1
+          <span class="badge-good">Tuned τ</span>
+        </div>
+        <div class="finding-stat-num mono">0.533</div>
+        <div class="finding-stat-sub">Recovery from tuning</div>
+      </div>
+      <div class="finding-stat finding-stat-honest">
+        <div class="finding-stat-label">Leakage gap</div>
+        <div class="finding-stat-num mono">46.7%</div>
+        <div class="finding-stat-sub">Remaining real gap</div>
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label">Per-pair improvement after threshold tuning</div>
+      <img src="assets/plots/can_03_cross_file_heatmap.png" alt="CAN improvement" class="finding-plot">
+      <div class="finding-plot-caption">
+        The most dramatic case: <strong>RPM → Gear F1 jumps from 0.000 to 0.936</strong>
+        just from threshold tuning. Same model, same data, dramatically different conclusion.
+        This is why threshold tuning matters when transferring across files.
+      </div>
+    </div>
+
+    <div class="finding-quote">
+      <i data-lucide="quote"></i>
+      <p>
+        Without cross-file evaluation, our CAN-IDS would have reported F1 = 1.0 —
+        a number indistinguishable from the published state of the art, and equally
+        useless in production. Quantifying the leakage gap is itself the contribution.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- finding 05 — real-world field validation -->
+<section id="finding-5" class="finding finding-field">
+  <div class="container">
+
+    <div class="finding-banner" id="field-banner" hidden>
+      <i data-lucide="info"></i>
+      <div class="finding-banner-text">
+        <strong>Ongoing collection.</strong> Results below are preliminary —
+        based on <span id="field-banner-trips">—</span> trip(s) so far. The pipeline
+        is set up to ingest more drives as we collect them; figures and stats
+        will update automatically.
+      </div>
+    </div>
+
+    <div class="finding-tag finding-tag-field">FINDING 05 · DEPLOYMENT VALIDATION</div>
+    <h2 class="finding-title">Validating the OBD-II model on real driving data</h2>
+    <p class="finding-subtitle">
+      Models trained on synthetic labels need real-world validation. We collected
+      our own OBD-II telemetry via a Vgate iCar Pro BLE 4.0 dongle and ran the
+      deployed ONNX model — the same one used in the live demo above — on this
+      field data.
+    </p>
+
+    <div class="finding-stats">
+      <div class="finding-stat">
+        <div class="finding-stat-label">Trips collected</div>
+        <div class="finding-stat-value" id="field-trips">—</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Hours of driving</div>
+        <div class="finding-stat-value" id="field-hours">—</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">1Hz samples scored</div>
+        <div class="finding-stat-value" id="field-samples">—</div>
+      </div>
+      <div class="finding-stat">
+        <div class="finding-stat-label">Drivers · vehicles</div>
+        <div class="finding-stat-value" id="field-drivers">—</div>
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label">Risk score timeline per trip</div>
+      <img src="assets/plots/field_03_risk_timeline.png"
+           alt="Field validation — model risk over time per trip"
+           class="finding-plot">
+      <div class="finding-plot-caption">
+        Each panel is one trip. The blue line is the model-predicted risk score
+        at each 1 Hz sample; green / amber / red bands mark the
+        <em>safe</em> / <em>diagnostic</em> / <em>do not drive</em> verdict zones.
+        The ONNX model runs on every row — same model as the live demo above.
+        <br><br>
+        <strong>Key field-validation finding:</strong> Both highway trips show
+        mean risk above the 0.65 do-not-drive threshold despite being routine
+        driving. This quantifies the <strong>synthetic-label gap</strong>: the
+        OBD-II model, trained on rule-based stress labels (Bosch thresholds),
+        systematically overestimates risk under sustained high-speed operation.
+        The discrepancy is not a model defect but the expected signature of
+        textbook-vs-real label distribution mismatch, and it directly motivates
+        the collection of real-world labels as the principal future-work item.
+      </div>
+    </div>
+
+    <div class="finding-plot-block finding-plot-solo">
+      <div class="finding-plot-label">Coolant warm-up envelope across trips</div>
+      <img src="assets/plots/field_05_coolant_warmup.png"
+           alt="Coolant temperature across trips"
+           class="finding-plot">
+      <div class="finding-plot-caption">
+        Each curve is one trip's coolant temperature over time. Curves that
+        start at ~90°C indicate the engine was already warm — these trips lack
+        cold-start data, an explicit limitation we track and address in future
+        collection.
+      </div>
+    </div>
+
+    <div class="finding-methodology">
+      <div class="methodology-title">Methodology note · field validation</div>
+      <ul class="methodology-list">
+        <li><strong>Hardware:</strong> Vgate iCar Pro BLE 4.0 dongle + Car Scanner Pro (iOS), logging 30 PIDs at ~1 Hz effective rate.</li>
+        <li><strong>Train-once / deploy-many:</strong> The same ONNX model from Notebook 03 (trained on synthetic-labelled public data) runs on field data, in the live browser demo, and in the validation notebook — no retraining or fine-tuning.</li>
+        <li><strong>Trip annotations compiled:</strong> Auto-derived from CSV (date, duration, driving conditions via speed distribution) + minimal manual annotation (driver, vehicle, subjective rating).</li>
+        <li><strong>Honest limitations:</strong> Single vehicle (Hyundai Tucson), no labelled fault events observed during collection, subjective ratings only at trip level. Field data establishes a healthy-vehicle baseline.</li>
+        <li><strong>Observed model bias:</strong> Sustained highway operation triggers above-threshold risk scores despite normal driving — the expected signature of synthetic-label training. Real-world labels would shrink this gap; see Section 3.13 of the thesis for the methodological discussion.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- faq -->
+<section id="faq">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="section-tag">FAQ</div>
+      <h2 class="section-title">Frequently asked questions</h2>
+      <p class="section-subtitle">
+        Common questions about the methodology, terminology, and decisions in this work.
+      </p>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q">What is the CAN bus and why does it matter?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>The Controller Area Network (CAN) is the internal communication backbone
+          of virtually every modern vehicle. It connects the engine control unit (ECU),
+          ABS, transmission, dashboard, airbags and dozens of other components on a single
+          shared bus. Originally designed for closed environments, it has no built-in
+          authentication — any node can broadcast messages. As vehicles gain cellular
+          connectivity and OBD-II ports get exposed, adversaries can inject malicious CAN
+          frames to manipulate sensor readings or disable safety systems.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What does "Total Cost" mean on Scania APS?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>The IDA 2016 Industrial Challenge defined an asymmetric cost matrix:
+          a false positive (unnecessary inspection) costs 10 units, but a false negative
+          (missed failure) costs 500 units — 50× more, reflecting real maintenance economics.
+          Total Cost = 10·FP + 500·FN. Our model gets Total Cost = 8,910, ranking 5th out
+          of 13 published works on the same evaluation. The default threshold τ=0.5 gives
+          14,180 — we cut it 36% just by tuning τ.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is data leakage in machine learning?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>Data leakage happens when information from the test set inadvertently appears
+          in the training set, inflating performance metrics artificially. A common case
+          is "per-vehicle leakage": if you split data randomly, the same vehicle ends up
+          in both train and test sets. The model memorizes per-vehicle signatures rather
+          than learning general fault patterns. We measured this on OBD-II (36.9% gap) and
+          on CAN (46.7% gap). Both are concrete numerical findings.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Why XGBoost and not Transformer or neural networks?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>For tabular data with fewer than ~100K samples, XGBoost consistently
+          outperforms neural networks (Shwartz-Ziv &amp; Armon, 2022). It also trains
+          faster, requires less hyperparameter tuning, and produces interpretable feature
+          importances via SHAP. The state-of-the-art on Scania APS (Beikmohammadi 2024,
+          Total Cost 3,440) is a Transformer, but with a 4-component pipeline (SMOTE +
+          Focal Loss + Bayesian Ridge + Transformer) that requires 4-6 weeks to reproduce.
+          We chose <em>breadth over depth</em> — 4 subsystems with honest methodology.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Why synthetic labels in the OBD-II stress detector?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>The public OBD-II dataset we use (Kaggle 14-drivers/14-cars) contains
+          normal city driving — no labelled mechanical faults. Faulted vehicles are rare
+          and not publicly shared. So we generate labels from engineering rules grounded
+          in published references (Bosch Automotive Handbook, SAE J1979 PID specifications).
+          This is a <em>bootstrap step</em>: the architecture is ready to accept real fault
+          data the moment we collect it from instrumented vehicles. Future work explicitly
+          scoped.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What does AUC mean?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>AUC stands for "Area Under the ROC Curve" — it measures how well the model
+          separates two classes across all possible decision thresholds. 0.5 = random
+          guessing, 1.0 = perfect separation. Our Scania APS model gets AUC = 0.9958 on
+          16,000 test trucks — meaning the model can almost always tell a healthy truck
+          from a failing one, regardless of which probability threshold you pick.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is ONNX and why does inference run in the browser?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>ONNX (Open Neural Network Exchange) is a portable model format. We export
+          our trained scikit-learn / XGBoost models to ONNX, and then ONNX Runtime Web
+          runs them in any browser via WebAssembly. No backend, no data sent anywhere —
+          your sensor readings (or slider values) are processed entirely on your device.
+          Inference latency in your browser is around 50–500 µs per prediction. Server-side
+          batch inference reaches 22 µs.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Where do my data go when I use the demo?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>Nowhere. There is no server. The OBD-II stress detector model runs entirely
+          in your browser via ONNX Runtime Web. The slider values are processed in
+          WebAssembly on your computer. Nothing leaves your device. You can verify this by
+          opening DevTools (F12) → Network tab while moving the sliders — no requests fire.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What does Isolation Forest do on the VED dataset?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>The VED dataset has no labelled faults — just driving telemetry from 384
+          vehicles. So we use Isolation Forest, an unsupervised algorithm that learns
+          what "normal" trips look like and flags ones that deviate. The two clusters
+          that emerge — prolonged-idle vehicles (V189, V169, V503) and aggressive drivers
+          (V492, V545, V569) — were not pre-labelled. The model discovered them through
+          coherent behavioral signatures.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Who built this?<span class="faq-icon">+</span></button>
+        <div class="faq-a">
+          <p>Auyen Yeginbay &amp; Altynbek Kabiyev, students at Astana IT University,
+          School of Intelligent Systems. Scientific advisor: Assemgul Sadvakassova.
+          Bachelor diploma project, 2026.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- footer -->
+<footer id="site-footer" class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <img src="assets/aitulogo.png" alt="Astana IT University" class="footer-aitu-logo" onerror="this.style.display='none'">
+          <div>
+            <div class="footer-brand-name">Smart Transport Analytics</div>
+            <div class="footer-brand-sub">AITU Diploma · 2026</div>
+          </div>
+        </div>
+        <p class="footer-tagline">
+          A diploma project from the School of Intelligent Systems —
+          predicting vehicle breakdowns from telematics and CAN data.
+        </p>
+        <a href="https://astanait.edu.kz/en" target="_blank" rel="noopener" class="footer-univ-link">
+          astanait.edu.kz
+          <span class="footer-link-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <div class="footer-col-title">Findings</div>
+          <a href="#finding-1">Scania APS</a>
+          <a href="#finding-2">VED behaviour</a>
+          <a href="#finding-3">OBD-II stress</a>
+          <a href="#finding-4">CAN intrusion</a>
+          <a href="#finding-5">Field validation</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Demo</div>
+          <a href="#try-it">Try OBD-II detector</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Project</div>
+          <a href="#hero">Overview</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank" rel="noopener" class="footer-github-link">
+            <i data-lucide="github"></i>
+            <span>Source on GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-credits">
+        <div class="footer-authors">
+          Created by <strong>Auyen Yeginbay</strong> &amp; <strong>Altynbek Kabiyev</strong>
+          <span class="footer-divider">·</span>
+          Scientific advisor: <strong>Assemgul Sadvakassova</strong>
+        </div>
+        <div class="footer-tech">
+          Built with XGBoost · Isolation Forest · ONNX Runtime Web
+        </div>
+      </div>
+      <div class="footer-copy">
+        © 2026 Smart Transport Analytics · School of Intelligent Systems · Astana IT University
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) {
+          console.log('SW registration failed:', e);
+        });
+      });
+    }
+  </script>
+  <script>
+    // PWA install button
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('install-btn');
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.classList.add('show');
+    });
+    if (installBtn) {
+      installBtn.addEventListener('click', async function () {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.classList.remove('show');
+      });
+    }
+    window.addEventListener('appinstalled', function () {
+      if (installBtn) installBtn.classList.remove('show');
+    });
+  </script>
+  <script>
+  // ── Design accents: count-up + scroll-reveal (safe, with fallbacks) ──
+  (function () {
+    if (!('IntersectionObserver' in window)) return; // old browser -> static, nothing hidden
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ① Count-up on hero numbers
+    function countUp(el, target, dur) {
+      var isFloat = target % 1 !== 0, start = null;
+      function tick(t) {
+        if (!start) start = t;
+        var p = Math.min((t - start) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = isFloat ? (target * e).toFixed(1) : Math.round(target * e);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = isFloat ? target.toFixed(1) : target;
+      }
+      requestAnimationFrame(tick);
+    }
+    var nums = document.querySelectorAll('.stat-num .mono');
+    if (!reduce) {
+      var nObs = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting && !en.target.dataset.done) {
+            en.target.dataset.done = '1';
+            var tgt = parseFloat(en.target.textContent);
+            if (!isNaN(tgt)) countUp(en.target, tgt, 1200);
+          }
+        });
+      }, { threshold: 0.5 });
+      nums.forEach(function (n) { nObs.observe(n); });
+    }
+
+    // ② Scroll-reveal
+    var sel = '.stat, .finding-nav-card, .contribution-card, .finding-header, .finding-title';
+    var els = document.querySelectorAll(sel);
+    if (!reduce) {
+      els.forEach(function (el) { el.classList.add('reveal'); });
+      var rObs = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); rObs.unobserve(en.target); }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(function (el) { rObs.observe(el); });
+    }
+  })();
+  </script>
+</body>
+
+</html>

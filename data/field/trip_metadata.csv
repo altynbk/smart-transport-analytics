@@ -1,0 +1,11 @@
+trip_id,date,driver,vehicle,start_time,end_time,duration_min,conditions,subjective,notes
+2026-05-16_13-44-51,2026-05-16,,Hyundai Tucson,13:44:57,16:20:17,155.3,highway,normal,Astana → Karaganda; first long highway test
+2026-05-17_13-13-36,2026-05-17,,Hyundai Tucson,13:13:36,15:32:09,138.6,highway,normal,similar highway route; GPS lost mid-trip
+2026-05-22_09-23-55,2026-05-22,,Hyundai Tucson,09:24:03,09:55:01,31.0,city,normal,morning drive (~31 min)
+2026-05-22_16-49-59,2026-05-22,,Hyundai Tucson,16:50:09,18:29:33,99.4,highway,normal,"evening drive, longer route (~99 min)"
+2026-05-23_10-22-40,2026-05-23,,Hyundai Tucson,10:22:48,11:14:56,52.1,mixed,normal,morning drive (~52 min)
+2026-05-23_13-09-34,2026-05-23,,Hyundai Tucson,13:09:42,14:04:22,54.7,mixed,normal,midday drive (~55 min)
+2026-05-25_15-47-50,2026-05-25,,Hyundai Tucson,15:47:59,17:08:28,80.5,mixed,normal,afternoon drive (~80 min)
+2026-05-26_00-21-38,2026-05-26,,Hyundai Tucson,00:21:45,00:47:22,25.6,city,normal,late-night drive (~26 min)
+2026-05-27_21-36-39,2026-05-27,,Hyundai Tucson,21:36:45,22:42:33,65.8,city,normal,evening drive (~66 min)
+2026-05-27_23-32-36,2026-05-27,,Hyundai Tucson,23:32:43,00:00:45,28.0,city,normal,late-night drive (~28 min)

@@ -1,0 +1,32 @@
+{
+  "batch_1": {
+    "batch_size": 1,
+    "xgb_us_per_pred": 457.6999999699183,
+    "onnx_us_per_pred": 24.69999890308827,
+    "speedup": 18.530365194173815
+  },
+  "batch_100": {
+    "batch_size": 100,
+    "xgb_us_per_pred": 11.618499993346632,
+    "onnx_us_per_pred": 7.495500003642519,
+    "speedup": 1.5500633697152286
+  },
+  "batch_1000": {
+    "batch_size": 1000,
+    "xgb_us_per_pred": 2.515500000299653,
+    "onnx_us_per_pred": 3.1970000000001164,
+    "speedup": 0.7868314045353648
+  },
+  "batch_10000": {
+    "batch_size": 10000,
+    "xgb_us_per_pred": 1.6673350000019127,
+    "onnx_us_per_pred": 3.062504999979865,
+    "speedup": 0.5444350294980335
+  },
+  "batch_16000": {
+    "batch_size": 16000,
+    "xgb_us_per_pred": 1.1390031249902677,
+    "onnx_us_per_pred": 3.417328125010499,
+    "speedup": 0.33330224178773243
+  }
+}

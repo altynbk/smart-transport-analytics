@@ -1,0 +1,507 @@
+{
+  "subsystem": "field_validation",
+  "task": "real-world validation of OBD-II stress detector on self-collected driving data",
+  "dataset": {
+    "name": "self-collected via Vgate iCar Pro BLE 4.0 + Car Scanner Pro (iOS)",
+    "vehicles": [
+      "Hyundai Tucson"
+    ],
+    "drivers": [
+      ""
+    ],
+    "n_trips": 10,
+    "total_samples_1hz": 43869,
+    "total_duration_min": 731.0
+  },
+  "pipeline": {
+    "parser": "Russian column names → standardized PIDs via COLUMN_MAP",
+    "resampling": "1 Hz grid via last-in-bucket, ffill capped at 30s",
+    "inference": "ONNX OBD-II stress model on 6 features",
+    "risk_score": "0.5 × P(Diagnostic) + 1.0 × P(Critical)",
+    "thresholds": {
+      "safe": "< 0.30",
+      "diagnostic": "0.30–0.65",
+      "do_not_drive": "> 0.65"
+    }
+  },
+  "model": {
+    "onnx_path": "models\\onnx\\obd_stress_xgb.onnx",
+    "feature_order": [
+      "ENGINE_RPM",
+      "THROTTLE_POS",
+      "ENGINE_COOLANT_TEMP",
+      "ENGINE_LOAD",
+      "SPEED",
+      "INTAKE_MANIFOLD_PRESSURE"
+    ]
+  },
+  "trip_summary": [
+    {
+      "trip_id": "2026-05-16_13-44-51",
+      "driver": "",
+      "conditions": "highway",
+      "subjective": "normal",
+      "duration_min": 155.3,
+      "samples_1hz": 9321,
+      "rpm_max": 3666.0,
+      "rpm_mean": 2250.5,
+      "speed_max": 155.0,
+      "speed_mean": 90.1,
+      "load_mean": 70.6,
+      "coolant_max": 96.0,
+      "oil_max": 101.2,
+      "atf_max": 98.0,
+      "stft_max": 13.3,
+      "ltft_max": 4.7
+    },
+    {
+      "trip_id": "2026-05-17_13-13-36",
+      "driver": "",
+      "conditions": "highway",
+      "subjective": "normal",
+      "duration_min": 138.6,
+      "samples_1hz": 8314,
+      "rpm_max": 3378.0,
+      "rpm_mean": 2191.5,
+      "speed_max": 150.0,
+      "speed_mean": 86.0,
+      "load_mean": 68.1,
+      "coolant_max": 96.0,
+      "oil_max": 101.2,
+      "atf_max": 98.0,
+      "stft_max": 15.6,
+      "ltft_max": 7.0
+    },
+    {
+      "trip_id": "2026-05-22_09-23-55",
+      "driver": "",
+      "conditions": "city",
+      "subjective": "normal",
+      "duration_min": 31.0,
+      "samples_1hz": 1859,
+      "rpm_max": 2545.0,
+      "rpm_mean": 1165.0,
+      "speed_max": 63.0,
+      "speed_mean": 16.0,
+      "load_mean": 43.0,
+      "coolant_max": 94.0,
+      "oil_max": 89.2,
+      "atf_max": 62.0,
+      "stft_max": 6.2,
+      "ltft_max": 3.1
+    },
+    {
+      "trip_id": "2026-05-22_16-49-59",
+      "driver": "",
+      "conditions": "highway",
+      "subjective": "normal",
+      "duration_min": 99.4,
+      "samples_1hz": 5965,
+      "rpm_max": 4091.0,
+      "rpm_mean": 2312.8,
+      "speed_max": 161.0,
+      "speed_mean": 95.8,
+      "load_mean": 68.9,
+      "coolant_max": 95.0,
+      "oil_max": 99.8,
+      "atf_max": 92.0,
+      "stft_max": 15.6,
+      "ltft_max": 1.6
+    },
+    {
+      "trip_id": "2026-05-23_10-22-40",
+      "driver": "",
+      "conditions": "mixed",
+      "subjective": "normal",
+      "duration_min": 52.1,
+      "samples_1hz": 3129,
+      "rpm_max": 2993.0,
+      "rpm_mean": 1576.2,
+      "speed_max": 115.0,
+      "speed_mean": 52.5,
+      "load_mean": 53.6,
+      "coolant_max": 94.0,
+      "oil_max": 93.8,
+      "atf_max": 78.0,
+      "stft_max": 7.8,
+      "ltft_max": 0.0
+    },
+    {
+      "trip_id": "2026-05-23_13-09-34",
+      "driver": "",
+      "conditions": "mixed",
+      "subjective": "normal",
+      "duration_min": 54.7,
+      "samples_1hz": 3281,
+      "rpm_max": 3048.0,
+      "rpm_mean": 1544.3,
+      "speed_max": 112.0,
+      "speed_mean": 48.7,
+      "load_mean": 54.3,
+      "coolant_max": 94.0,
+      "oil_max": 95.2,
+      "atf_max": 79.0,
+      "stft_max": 7.8,
+      "ltft_max": 0.8
+    },
+    {
+      "trip_id": "2026-05-25_15-47-50",
+      "driver": "",
+      "conditions": "mixed",
+      "subjective": "normal",
+      "duration_min": 80.5,
+      "samples_1hz": 4830,
+      "rpm_max": 3010.0,
+      "rpm_mean": 1638.5,
+      "speed_max": 114.0,
+      "speed_mean": 56.0,
+      "load_mean": 53.6,
+      "coolant_max": 96.0,
+      "oil_max": 96.8,
+      "atf_max": 92.0,
+      "stft_max": 10.9,
+      "ltft_max": 1.6
+    },
+    {
+      "trip_id": "2026-05-26_00-21-38",
+      "driver": "",
+      "conditions": "city",
+      "subjective": "normal",
+      "duration_min": 25.6,
+      "samples_1hz": 1538,
+      "rpm_max": 2709.0,
+      "rpm_mean": 1272.5,
+      "speed_max": 54.0,
+      "speed_mean": 23.1,
+      "load_mean": 42.9,
+      "coolant_max": 99.0,
+      "oil_max": 96.8,
+      "atf_max": 89.0,
+      "stft_max": 6.2,
+      "ltft_max": 3.9
+    },
+    {
+      "trip_id": "2026-05-27_21-36-39",
+      "driver": "",
+      "conditions": "city",
+      "subjective": "normal",
+      "duration_min": 65.8,
+      "samples_1hz": 3949,
+      "rpm_max": 2926.0,
+      "rpm_mean": 1244.3,
+      "speed_max": 67.0,
+      "speed_mean": 25.9,
+      "load_mean": 43.5,
+      "coolant_max": 95.0,
+      "oil_max": 96.0,
+      "atf_max": 88.0,
+      "stft_max": 10.2,
+      "ltft_max": 0.0
+    },
+    {
+      "trip_id": "2026-05-27_23-32-36",
+      "driver": "",
+      "conditions": "city",
+      "subjective": "normal",
+      "duration_min": 28.0,
+      "samples_1hz": 1683,
+      "rpm_max": 2603.0,
+      "rpm_mean": 1183.7,
+      "speed_max": 62.0,
+      "speed_mean": 20.4,
+      "load_mean": 45.5,
+      "coolant_max": 99.0,
+      "oil_max": 98.2,
+      "atf_max": 96.0,
+      "stft_max": 6.2,
+      "ltft_max": 1.6
+    }
+  ],
+  "conditions_breakdown": [
+    {
+      "trip_id": "2026-05-16_13-44-51",
+      "engine_off": 0.0,
+      "idle": 8.6,
+      "slow": 5.7,
+      "city": 9.8,
+      "arterial": 22.7,
+      "highway": 53.3
+    },
+    {
+      "trip_id": "2026-05-17_13-13-36",
+      "engine_off": 8.8,
+      "idle": 6.1,
+      "slow": 6.5,
+      "city": 17.2,
+      "arterial": 16.0,
+      "highway": 45.3
+    },
+    {
+      "trip_id": "2026-05-22_09-23-55",
+      "engine_off": 1.0,
+      "idle": 49.6,
+      "slow": 21.5,
+      "city": 26.9,
+      "arterial": 1.0,
+      "highway": 0.0
+    },
+    {
+      "trip_id": "2026-05-22_16-49-59",
+      "engine_off": 0.4,
+      "idle": 3.1,
+      "slow": 4.1,
+      "city": 12.5,
+      "arterial": 24.2,
+      "highway": 55.7
+    },
+    {
+      "trip_id": "2026-05-23_10-22-40",
+      "engine_off": 7.9,
+      "idle": 7.1,
+      "slow": 9.5,
+      "city": 34.0,
+      "arterial": 36.3,
+      "highway": 5.2
+    },
+    {
+      "trip_id": "2026-05-23_13-09-34",
+      "engine_off": 0.7,
+      "idle": 12.8,
+      "slow": 11.1,
+      "city": 39.2,
+      "arterial": 33.0,
+      "highway": 3.2
+    },
+    {
+      "trip_id": "2026-05-25_15-47-50",
+      "engine_off": 0.0,
+      "idle": 10.1,
+      "slow": 8.1,
+      "city": 32.0,
+      "arterial": 38.5,
+      "highway": 11.3
+    },
+    {
+      "trip_id": "2026-05-26_00-21-38",
+      "engine_off": 0.2,
+      "idle": 28.0,
+      "slow": 25.4,
+      "city": 46.4,
+      "arterial": 0.0,
+      "highway": 0.0
+    },
+    {
+      "trip_id": "2026-05-27_21-36-39",
+      "engine_off": 38.2,
+      "idle": 21.9,
+      "slow": 10.0,
+      "city": 29.3,
+      "arterial": 0.6,
+      "highway": 0.0
+    },
+    {
+      "trip_id": "2026-05-27_23-32-36",
+      "engine_off": 0.3,
+      "idle": 42.7,
+      "slow": 20.9,
+      "city": 35.7,
+      "arterial": 0.5,
+      "highway": 0.0
+    }
+  ],
+  "risk_per_trip": [
+    {
+      "trip_id": "2026-05-16_13-44-51",
+      "n_scored": 9318,
+      "risk_mean": 0.841,
+      "risk_median": 1.0,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 31.5,
+      "pct_do_not_drive": 68.5
+    },
+    {
+      "trip_id": "2026-05-17_13-13-36",
+      "n_scored": 7639,
+      "risk_mean": 0.799,
+      "risk_median": 0.999,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 39.8,
+      "pct_do_not_drive": 60.2
+    },
+    {
+      "trip_id": "2026-05-22_09-23-55",
+      "n_scored": 1859,
+      "risk_mean": 0.391,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 28.7,
+      "pct_diagnostic": 64.4,
+      "pct_do_not_drive": 6.8
+    },
+    {
+      "trip_id": "2026-05-22_16-49-59",
+      "n_scored": 5963,
+      "risk_mean": 0.822,
+      "risk_median": 0.999,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 35.2,
+      "pct_do_not_drive": 64.8
+    },
+    {
+      "trip_id": "2026-05-23_10-22-40",
+      "n_scored": 2909,
+      "risk_mean": 0.611,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 3.4,
+      "pct_diagnostic": 70.3,
+      "pct_do_not_drive": 26.3
+    },
+    {
+      "trip_id": "2026-05-23_13-09-34",
+      "n_scored": 3281,
+      "risk_mean": 0.613,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 3.7,
+      "pct_diagnostic": 69.2,
+      "pct_do_not_drive": 27.2
+    },
+    {
+      "trip_id": "2026-05-25_15-47-50",
+      "n_scored": 4830,
+      "risk_mean": 0.651,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 69.1,
+      "pct_do_not_drive": 30.9
+    },
+    {
+      "trip_id": "2026-05-26_00-21-38",
+      "n_scored": 1535,
+      "risk_mean": 0.601,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 79.7,
+      "pct_do_not_drive": 20.3
+    },
+    {
+      "trip_id": "2026-05-27_21-36-39",
+      "n_scored": 2519,
+      "risk_mean": 0.509,
+      "risk_median": 0.5,
+      "risk_max": 1.0,
+      "pct_safe": 12.1,
+      "pct_diagnostic": 73.8,
+      "pct_do_not_drive": 14.2
+    },
+    {
+      "trip_id": "2026-05-27_23-32-36",
+      "n_scored": 1680,
+      "risk_mean": 0.702,
+      "risk_median": 0.501,
+      "risk_max": 1.0,
+      "pct_safe": 0.0,
+      "pct_diagnostic": 59.4,
+      "pct_do_not_drive": 40.6
+    }
+  ],
+  "subjective_vs_predicted": [
+    {
+      "trip_id": "2026-05-16_13-44-51",
+      "subjective": "normal",
+      "predicted_majority": "do_not_drive",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 31.5,
+      "pct_do_not_drive": 68.5,
+      "risk_mean": 0.841
+    },
+    {
+      "trip_id": "2026-05-17_13-13-36",
+      "subjective": "normal",
+      "predicted_majority": "do_not_drive",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 39.8,
+      "pct_do_not_drive": 60.2,
+      "risk_mean": 0.799
+    },
+    {
+      "trip_id": "2026-05-22_09-23-55",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 28.7,
+      "pct_diagnostic": 64.4,
+      "pct_do_not_drive": 6.8,
+      "risk_mean": 0.391
+    },
+    {
+      "trip_id": "2026-05-22_16-49-59",
+      "subjective": "normal",
+      "predicted_majority": "do_not_drive",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 35.2,
+      "pct_do_not_drive": 64.8,
+      "risk_mean": 0.822
+    },
+    {
+      "trip_id": "2026-05-23_10-22-40",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 3.4,
+      "pct_diagnostic": 70.3,
+      "pct_do_not_drive": 26.3,
+      "risk_mean": 0.611
+    },
+    {
+      "trip_id": "2026-05-23_13-09-34",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 3.7,
+      "pct_diagnostic": 69.2,
+      "pct_do_not_drive": 27.2,
+      "risk_mean": 0.613
+    },
+    {
+      "trip_id": "2026-05-25_15-47-50",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 69.1,
+      "pct_do_not_drive": 30.9,
+      "risk_mean": 0.651
+    },
+    {
+      "trip_id": "2026-05-26_00-21-38",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 79.7,
+      "pct_do_not_drive": 20.3,
+      "risk_mean": 0.601
+    },
+    {
+      "trip_id": "2026-05-27_21-36-39",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 12.1,
+      "pct_diagnostic": 73.8,
+      "pct_do_not_drive": 14.2,
+      "risk_mean": 0.509
+    },
+    {
+      "trip_id": "2026-05-27_23-32-36",
+      "subjective": "normal",
+      "predicted_majority": "diagnostic",
+      "pct_safe": 0.0,
+      "pct_diagnostic": 59.4,
+      "pct_do_not_drive": 40.6,
+      "risk_mean": 0.702
+    }
+  ],
+  "generated_at": "2026-05-29T08:38:15.227807Z"
+}

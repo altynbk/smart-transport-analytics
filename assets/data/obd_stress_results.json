@@ -1,0 +1,334 @@
+{
+  "subsystem": "obd_stress_detector",
+  "task": "mechanical stress classification from real-time OBD-II readings",
+  "dataset": {
+    "name": "OBD-II 14-drivers/14-cars (Kaggle, used as sensor source)",
+    "total_readings_raw": 60439,
+    "total_readings_filtered": 20071,
+    "features": 6,
+    "feature_cols": [
+      "ENGINE_RPM",
+      "THROTTLE_POS",
+      "ENGINE_COOLANT_TEMP",
+      "ENGINE_LOAD",
+      "SPEED",
+      "INTAKE_MANIFOLD_PRESSURE"
+    ]
+  },
+  "labeling_method": {
+    "type": "rule-based synthetic labels",
+    "source": "engineering best practices (Bosch Automotive Handbook, SAE J1979)",
+    "note": "Future work: validate against real fault data from instrumented vehicles"
+  },
+  "classes": {
+    "0": {
+      "name": "Normal",
+      "color": "#10b981"
+    },
+    "1": {
+      "name": "Diagnostic",
+      "color": "#f59e0b"
+    },
+    "2": {
+      "name": "Critical",
+      "color": "#dc2626"
+    }
+  },
+  "class_distribution": {
+    "0": 9136,
+    "1": 8878,
+    "2": 2057
+  },
+  "model": {
+    "type": "XGBClassifier (multiclass softmax)",
+    "params": {
+      "objective": "multi:softprob",
+      "num_class": 3,
+      "tree_method": "hist",
+      "max_depth": 5,
+      "learning_rate": 0.1,
+      "n_estimators": 300,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "random_state": 42,
+      "verbosity": 0,
+      "n_jobs": -1,
+      "eval_metric": "mlogloss"
+    },
+    "training_time_sec": 0.7838702201843262,
+    "test_accuracy": 0.9972602739726028
+  },
+  "per_class_metrics": {
+    "Normal": {
+      "precision": 1.0,
+      "recall": 0.99945295404814,
+      "f1": 0.9997264021887825,
+      "support": 1828
+    },
+    "Diagnostic": {
+      "precision": 0.9977439368302312,
+      "recall": 0.9960585585585585,
+      "f1": 0.9969005353620738,
+      "support": 1776
+    },
+    "Critical": {
+      "precision": 0.983132530120482,
+      "recall": 0.9927007299270073,
+      "f1": 0.9878934624697336,
+      "support": 411
+    }
+  },
+  "confusion_matrix": [
+    [
+      1827,
+      1,
+      0
+    ],
+    [
+      0,
+      1769,
+      7
+    ],
+    [
+      0,
+      3,
+      408
+    ]
+  ],
+  "shap_feature_importance": [
+    {
+      "feature": "ENGINE_RPM",
+      "mean_abs_shap": 1.8852373361587524
+    },
+    {
+      "feature": "ENGINE_COOLANT_TEMP",
+      "mean_abs_shap": 1.2827192544937134
+    },
+    {
+      "feature": "THROTTLE_POS",
+      "mean_abs_shap": 1.1217454671859741
+    },
+    {
+      "feature": "ENGINE_LOAD",
+      "mean_abs_shap": 0.8811470866203308
+    },
+    {
+      "feature": "INTAKE_MANIFOLD_PRESSURE",
+      "mean_abs_shap": 0.29545605182647705
+    },
+    {
+      "feature": "SPEED",
+      "mean_abs_shap": 0.26873376965522766
+    }
+  ],
+  "shap_per_class": {
+    "Normal": [
+      {
+        "feature": "ENGINE_RPM",
+        "mean_abs_shap": 2.343916177749634
+      },
+      {
+        "feature": "ENGINE_COOLANT_TEMP",
+        "mean_abs_shap": 1.5593761205673218
+      },
+      {
+        "feature": "THROTTLE_POS",
+        "mean_abs_shap": 1.3757314682006836
+      },
+      {
+        "feature": "ENGINE_LOAD",
+        "mean_abs_shap": 0.8979043960571289
+      },
+      {
+        "feature": "INTAKE_MANIFOLD_PRESSURE",
+        "mean_abs_shap": 0.49960440397262573
+      },
+      {
+        "feature": "SPEED",
+        "mean_abs_shap": 0.1784624457359314
+      }
+    ],
+    "Diagnostic": [
+      {
+        "feature": "ENGINE_RPM",
+        "mean_abs_shap": 1.534494400024414
+      },
+      {
+        "feature": "THROTTLE_POS",
+        "mean_abs_shap": 0.9773350358009338
+      },
+      {
+        "feature": "ENGINE_COOLANT_TEMP",
+        "mean_abs_shap": 0.946775496006012
+      },
+      {
+        "feature": "ENGINE_LOAD",
+        "mean_abs_shap": 0.5623348355293274
+      },
+      {
+        "feature": "INTAKE_MANIFOLD_PRESSURE",
+        "mean_abs_shap": 0.28437793254852295
+      },
+      {
+        "feature": "SPEED",
+        "mean_abs_shap": 0.19246509671211243
+      }
+    ],
+    "Critical": [
+      {
+        "feature": "ENGINE_RPM",
+        "mean_abs_shap": 1.777301549911499
+      },
+      {
+        "feature": "ENGINE_COOLANT_TEMP",
+        "mean_abs_shap": 1.342005968093872
+      },
+      {
+        "feature": "ENGINE_LOAD",
+        "mean_abs_shap": 1.1832020282745361
+      },
+      {
+        "feature": "THROTTLE_POS",
+        "mean_abs_shap": 1.0121698379516602
+      },
+      {
+        "feature": "SPEED",
+        "mean_abs_shap": 0.43527379631996155
+      },
+      {
+        "feature": "INTAKE_MANIFOLD_PRESSURE",
+        "mean_abs_shap": 0.10238579660654068
+      }
+    ]
+  },
+  "slider_ranges": {
+    "ENGINE_RPM": {
+      "min": 600,
+      "max": 7000,
+      "step": 50,
+      "default": 1500,
+      "unit": "rpm"
+    },
+    "THROTTLE_POS": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 15,
+      "unit": "%"
+    },
+    "ENGINE_COOLANT_TEMP": {
+      "min": 40,
+      "max": 130,
+      "step": 1,
+      "default": 90,
+      "unit": "\u00b0C"
+    },
+    "ENGINE_LOAD": {
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 30,
+      "unit": "%"
+    },
+    "SPEED": {
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "default": 60,
+      "unit": "km/h"
+    },
+    "INTAKE_MANIFOLD_PRESSURE": {
+      "min": 20,
+      "max": 250,
+      "step": 1,
+      "default": 60,
+      "unit": "kPa"
+    }
+  },
+  "scenarios": [
+    {
+      "scenario": "normal",
+      "class_name": "Normal",
+      "features": {
+        "ENGINE_RPM": 1370.0,
+        "THROTTLE_POS": 13.0,
+        "ENGINE_COOLANT_TEMP": 78.0,
+        "ENGINE_LOAD": 37.29999923706055,
+        "SPEED": 5.0,
+        "INTAKE_MANIFOLD_PRESSURE": 43.0
+      },
+      "features_array": [
+        1370.0,
+        13.0,
+        78.0,
+        37.29999923706055,
+        5.0,
+        43.0
+      ],
+      "expected_class": 0,
+      "expected_proba": [
+        0.9999700784683228,
+        2.7543925170903094e-05,
+        2.3343286557064857e-06
+      ]
+    },
+    {
+      "scenario": "diagnostic",
+      "class_name": "Diagnostic",
+      "features": {
+        "ENGINE_RPM": 1818.0,
+        "THROTTLE_POS": 19.0,
+        "ENGINE_COOLANT_TEMP": 70.0,
+        "ENGINE_LOAD": 51.400001525878906,
+        "SPEED": 28.0,
+        "INTAKE_MANIFOLD_PRESSURE": 65.0
+      },
+      "features_array": [
+        1818.0,
+        19.0,
+        70.0,
+        51.400001525878906,
+        28.0,
+        65.0
+      ],
+      "expected_class": 1,
+      "expected_proba": [
+        1.5527454024777398e-06,
+        0.999996542930603,
+        1.9521273770806147e-06
+      ]
+    },
+    {
+      "scenario": "critical",
+      "class_name": "Critical",
+      "features": {
+        "ENGINE_RPM": 2689.0,
+        "THROTTLE_POS": 50.0,
+        "ENGINE_COOLANT_TEMP": 82.0,
+        "ENGINE_LOAD": 71.80000305175781,
+        "SPEED": 44.0,
+        "INTAKE_MANIFOLD_PRESSURE": 46.0
+      },
+      "features_array": [
+        2689.0,
+        50.0,
+        82.0,
+        71.80000305175781,
+        44.0,
+        46.0
+      ],
+      "expected_class": 2,
+      "expected_proba": [
+        3.858850732285646e-07,
+        6.633807515754597e-06,
+        0.9999929666519165
+      ]
+    }
+  ],
+  "onnx_verification": {
+    "max_proba_diff": 4.172325134277344e-07,
+    "mean_proba_diff": 1.074777244980396e-08,
+    "accuracy_match": true
+  }
+}

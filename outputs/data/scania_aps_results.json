@@ -1,0 +1,407 @@
+{
+  "subsystem": "scania_aps",
+  "dataset": {
+    "name": "Scania APS Failure (IDA 2016)",
+    "source": "UCI ML Repository (DOI 10.24432/C51S51)",
+    "train_vehicles": 60000,
+    "test_vehicles": 16000,
+    "features": 170,
+    "train_positives": 1000,
+    "test_positives": 375
+  },
+  "cost_function": {
+    "cost_fn": 500,
+    "cost_fp": 10,
+    "ratio": 50
+  },
+  "model": {
+    "type": "XGBClassifier",
+    "params": {
+      "objective": "binary:logistic",
+      "tree_method": "hist",
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "n_estimators": 500,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "random_state": 42,
+      "verbosity": 0,
+      "n_jobs": -1,
+      "eval_metric": "aucpr"
+    },
+    "training_time_sec": 8.166556119918823,
+    "roc_auc": 0.995766784
+  },
+  "results": {
+    "optimal_threshold": 0.005994842503189409,
+    "total_cost": 8910,
+    "false_positives": 491,
+    "false_negatives": 8,
+    "true_positives": 367,
+    "true_negatives": 15134,
+    "precision": 0.42773892773892774,
+    "recall": 0.9786666666666667,
+    "f1_score": 0.5952960259529603,
+    "default_threshold_cost": 44140
+  },
+  "baselines_comparison": {
+    "our_result": {
+      "study": "OUR WORK (XGBoost + threshold)",
+      "method": "XGBoost binary + cost-sensitive threshold",
+      "fp": 491,
+      "fn": 8,
+      "cost": 8910,
+      "year": 2026,
+      "note": "no resampling, only threshold tuning"
+    },
+    "published_baselines": [
+      {
+        "study": "Taghandiki 2023",
+        "method": "DNN",
+        "fp": 77,
+        "fn": 137,
+        "cost": 69270,
+        "year": 2023,
+        "note": "mean imputation, no class balancing"
+      },
+      {
+        "study": "Oh 2020",
+        "method": "GPR + DNN",
+        "fp": 207,
+        "fn": 59,
+        "cost": 31570,
+        "year": 2020,
+        "note": "GAN oversampling"
+      },
+      {
+        "study": "Syed 2020",
+        "method": "Linear Classifier",
+        "fp": 519,
+        "fn": 30,
+        "cost": 20190,
+        "year": 2020,
+        "note": "KNN imputation, AUC max"
+      },
+      {
+        "study": "Ke 2022",
+        "method": "LSTM",
+        "fp": 229,
+        "fn": 28,
+        "cost": 16290,
+        "year": 2022,
+        "note": "sequential learning"
+      },
+      {
+        "study": "Rafsunjani 2019",
+        "method": "Random Forest",
+        "fp": 771,
+        "fn": 9,
+        "cost": 12210,
+        "year": 2019,
+        "note": "best of imputation comparison"
+      },
+      {
+        "study": "Akarte 2018",
+        "method": "XGBoost",
+        "fp": 414,
+        "fn": 12,
+        "cost": 10140,
+        "year": 2018,
+        "note": "median imputation, class weights"
+      },
+      {
+        "study": "Costa & Nascimento 2017",
+        "method": "IDA 2016 winner",
+        "fp": null,
+        "fn": null,
+        "cost": 9920,
+        "year": 2017,
+        "note": "Industrial Challenge winner"
+      },
+      {
+        "study": "Sun 2023",
+        "method": "Siamese NN",
+        "fp": 608,
+        "fn": 6,
+        "cost": 9080,
+        "year": 2023,
+        "note": "contrastive learning, multi-shot voting"
+      },
+      {
+        "study": "Ranasinghe 2019 (RF)",
+        "method": "Random Forest + CGAN",
+        "fp": 405,
+        "fn": 4,
+        "cost": 6050,
+        "year": 2019,
+        "note": "conditional GAN oversampling"
+      },
+      {
+        "study": "Ranasinghe 2019 (GBM)",
+        "method": "Gradient Boosting + CGAN",
+        "fp": 255,
+        "fn": 6,
+        "cost": 5550,
+        "year": 2019,
+        "note": "conditional GAN oversampling"
+      },
+      {
+        "study": "Oh 2023",
+        "method": "Quantum DNN",
+        "fp": 0,
+        "fn": 8,
+        "cost": 4000,
+        "year": 2023,
+        "note": "quantum mech-based missing value est."
+      },
+      {
+        "study": "Beikmohammadi 2024",
+        "method": "Cost-Sensitive Transformer",
+        "fp": 4,
+        "fn": 7,
+        "cost": 3440,
+        "year": 2024,
+        "note": "SVM-SMOTE + Repeated ENN + Focal Loss",
+        "sota": true
+      }
+    ],
+    "our_rank": 5,
+    "total_baselines_compared": 13,
+    "beats": 8,
+    "outranked_by": 4,
+    "sota_reference": {
+      "study": "Beikmohammadi 2024",
+      "paper": "A Cost-Sensitive Transformer Model for Prognostics Under Highly Imbalanced Industrial Data",
+      "arxiv": "2402.08611",
+      "cost": 3440,
+      "method": "Transformer + Bayesian Ridge imputer + SVM-SMOTE + Repeated ENN + Focal Loss"
+    }
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.0001,
+      "fp": 6439,
+      "fn": 0,
+      "cost": 64390
+    },
+    {
+      "threshold": 0.00025353644939701115,
+      "fp": 3535,
+      "fn": 1,
+      "cost": 35850
+    },
+    {
+      "threshold": 0.0006428073117284319,
+      "fp": 1770,
+      "fn": 3,
+      "cost": 19200
+    },
+    {
+      "threshold": 0.0016297508346206436,
+      "fp": 975,
+      "fn": 5,
+      "cost": 12250
+    },
+    {
+      "threshold": 0.0041320124001153384,
+      "fp": 596,
+      "fn": 7,
+      "cost": 9460
+    },
+    {
+      "threshold": 0.010476157527896652,
+      "fp": 367,
+      "fn": 12,
+      "cost": 9670
+    },
+    {
+      "threshold": 0.026560877829466867,
+      "fp": 213,
+      "fn": 23,
+      "cost": 13630
+    },
+    {
+      "threshold": 0.06734150657750829,
+      "fp": 121,
+      "fn": 36,
+      "cost": 19210
+    },
+    {
+      "threshold": 0.1707352647470692,
+      "fp": 52,
+      "fn": 50,
+      "cost": 25520
+    },
+    {
+      "threshold": 0.43287612810830617,
+      "fp": 18,
+      "fn": 77,
+      "cost": 38680
+    }
+  ],
+  "shap_top_features": [
+    {
+      "feature": "aa_000",
+      "mean_abs_shap": 1.6544653177261353
+    },
+    {
+      "feature": "bs_000",
+      "mean_abs_shap": 0.5690558552742004
+    },
+    {
+      "feature": "ci_000",
+      "mean_abs_shap": 0.5607828497886658
+    },
+    {
+      "feature": "ck_000",
+      "mean_abs_shap": 0.46159735321998596
+    },
+    {
+      "feature": "cb_000",
+      "mean_abs_shap": 0.40547019243240356
+    },
+    {
+      "feature": "ai_000",
+      "mean_abs_shap": 0.388541042804718
+    },
+    {
+      "feature": "ay_008",
+      "mean_abs_shap": 0.3537501394748688
+    },
+    {
+      "feature": "bi_000",
+      "mean_abs_shap": 0.34918805956840515
+    },
+    {
+      "feature": "az_002",
+      "mean_abs_shap": 0.31160229444503784
+    },
+    {
+      "feature": "ee_005",
+      "mean_abs_shap": 0.2597561478614807
+    },
+    {
+      "feature": "bk_000",
+      "mean_abs_shap": 0.25591450929641724
+    },
+    {
+      "feature": "bt_000",
+      "mean_abs_shap": 0.2447662651538849
+    },
+    {
+      "feature": "ay_006",
+      "mean_abs_shap": 0.24306322634220123
+    },
+    {
+      "feature": "cc_000",
+      "mean_abs_shap": 0.23825335502624512
+    },
+    {
+      "feature": "bc_000",
+      "mean_abs_shap": 0.20495590567588806
+    },
+    {
+      "feature": "dn_000",
+      "mean_abs_shap": 0.20061321556568146
+    },
+    {
+      "feature": "bx_000",
+      "mean_abs_shap": 0.18004408478736877
+    },
+    {
+      "feature": "ba_008",
+      "mean_abs_shap": 0.17639920115470886
+    },
+    {
+      "feature": "az_006",
+      "mean_abs_shap": 0.17048078775405884
+    },
+    {
+      "feature": "aq_000",
+      "mean_abs_shap": 0.16797585785388947
+    }
+  ],
+  "shap_group_analysis": [
+    {
+      "prefix": "aa",
+      "n_features": 1,
+      "total_abs_shap": 1.6544653177261353
+    },
+    {
+      "prefix": "az",
+      "n_features": 10,
+      "total_abs_shap": 0.926785496994853
+    },
+    {
+      "prefix": "ay",
+      "n_features": 10,
+      "total_abs_shap": 0.9175209790701047
+    },
+    {
+      "prefix": "ee",
+      "n_features": 10,
+      "total_abs_shap": 0.7011050442233682
+    },
+    {
+      "prefix": "ba",
+      "n_features": 10,
+      "total_abs_shap": 0.6719030272215605
+    },
+    {
+      "prefix": "ag",
+      "n_features": 10,
+      "total_abs_shap": 0.6417678650468588
+    },
+    {
+      "prefix": "cs",
+      "n_features": 10,
+      "total_abs_shap": 0.6234151255339384
+    },
+    {
+      "prefix": "cn",
+      "n_features": 10,
+      "total_abs_shap": 0.5851830122992396
+    },
+    {
+      "prefix": "bs",
+      "n_features": 1,
+      "total_abs_shap": 0.5690558552742004
+    },
+    {
+      "prefix": "ci",
+      "n_features": 1,
+      "total_abs_shap": 0.5607828497886658
+    },
+    {
+      "prefix": "ck",
+      "n_features": 1,
+      "total_abs_shap": 0.46159735321998596
+    },
+    {
+      "prefix": "cb",
+      "n_features": 1,
+      "total_abs_shap": 0.40547019243240356
+    },
+    {
+      "prefix": "ai",
+      "n_features": 1,
+      "total_abs_shap": 0.388541042804718
+    },
+    {
+      "prefix": "bi",
+      "n_features": 1,
+      "total_abs_shap": 0.34918805956840515
+    },
+    {
+      "prefix": "bk",
+      "n_features": 1,
+      "total_abs_shap": 0.25591450929641724
+    }
+  ],
+  "onnx_verification": {
+    "max_proba_diff": 4.172325134277344e-07,
+    "mean_proba_diff": 3.247745894441323e-08,
+    "total_cost_match": true
+  }
+}

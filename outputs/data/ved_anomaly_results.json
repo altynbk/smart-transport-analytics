@@ -1,0 +1,269 @@
+{
+  "subsystem": "ved_driver_behavior",
+  "task": "driver behavior profiling for fleet management",
+  "dataset": {
+    "name": "Vehicle Energy Dataset (VED)",
+    "source": "University of Michigan",
+    "total_vehicles": 384,
+    "total_trips_filtered": 32452,
+    "total_readings": 22436808,
+    "features": 17
+  },
+  "model": {
+    "type": "IsolationForest",
+    "params": {
+      "n_estimators": 200,
+      "max_samples": "auto",
+      "contamination": "auto",
+      "random_state": 42,
+      "n_jobs": -1
+    },
+    "training_time_sec": 0.689922571182251
+  },
+  "feature_cols": [
+    "Vehicle Speed[km/h]_mean",
+    "Vehicle Speed[km/h]_max",
+    "Vehicle Speed[km/h]_std",
+    "MAF[g/sec]_mean",
+    "MAF[g/sec]_max",
+    "Engine RPM[RPM]_mean",
+    "Engine RPM[RPM]_max",
+    "Engine RPM[RPM]_std",
+    "Absolute Load[%]_mean",
+    "Absolute Load[%]_max",
+    "OAT[DegC]_mean",
+    "Fuel Rate[L/hr]_mean",
+    "Fuel Rate[L/hr]_sum",
+    "duration_sec",
+    "n_readings",
+    "idle_readings",
+    "idle_fraction"
+  ],
+  "anomaly_score_stats": {
+    "min": 0.3518812199139367,
+    "median": 0.41251019488593577,
+    "mean": 0.4267984996494618,
+    "max": 0.7001715242442494,
+    "top20_cutoff": 0.6631036053954104
+  },
+  "top20_trips": [
+    {
+      "rank": 1,
+      "vehicle_id": 189,
+      "trip_id": 2030,
+      "anomaly_score": 0.7001715242442494,
+      "speed_mean": 2.3151868654136964,
+      "rpm_max": 1975.0,
+      "idle_fraction": 0.8835601641823287,
+      "duration_sec": 6560.0
+    },
+    {
+      "rank": 2,
+      "vehicle_id": 189,
+      "trip_id": 2425,
+      "anomaly_score": 0.6988438409142308,
+      "speed_mean": 1.0007860090391039,
+      "rpm_max": 2089.0,
+      "idle_fraction": 0.9500884260168992,
+      "duration_sec": 7326.4
+    },
+    {
+      "rank": 3,
+      "vehicle_id": 169,
+      "trip_id": 1641,
+      "anomaly_score": 0.6959621615547387,
+      "speed_mean": 2.5240384615384617,
+      "rpm_max": 2637.0,
+      "idle_fraction": 0.9005893300248139,
+      "duration_sec": 10120.9
+    },
+    {
+      "rank": 4,
+      "vehicle_id": 454,
+      "trip_id": 1829,
+      "anomaly_score": 0.6874354979908904,
+      "speed_mean": 4.196621914248593,
+      "rpm_max": 2879.0,
+      "idle_fraction": 0.8824166305760069,
+      "duration_sec": 4605.3
+    },
+    {
+      "rank": 5,
+      "vehicle_id": 492,
+      "trip_id": 1741,
+      "anomaly_score": 0.6846330072584323,
+      "speed_mean": 88.19928786270347,
+      "rpm_max": 4070.0,
+      "idle_fraction": 0.07643312101910828,
+      "duration_sec": 1941.0
+    },
+    {
+      "rank": 6,
+      "vehicle_id": 542,
+      "trip_id": 1895,
+      "anomaly_score": 0.6842633531574894,
+      "speed_mean": 57.045198961937714,
+      "rpm_max": 3378.0,
+      "idle_fraction": 0.125,
+      "duration_sec": 1990.2
+    },
+    {
+      "rank": 7,
+      "vehicle_id": 536,
+      "trip_id": 485,
+      "anomaly_score": 0.6842241804382911,
+      "speed_mean": 80.05744090257879,
+      "rpm_max": 3612.0,
+      "idle_fraction": 0.011938872970391595,
+      "duration_sec": 4750.9
+    },
+    {
+      "rank": 8,
+      "vehicle_id": 569,
+      "trip_id": 1573,
+      "anomaly_score": 0.68178401110609,
+      "speed_mean": 21.476088831130976,
+      "rpm_max": 2424.0,
+      "idle_fraction": 0.39020598523124755,
+      "duration_sec": 8008.6
+    },
+    {
+      "rank": 9,
+      "vehicle_id": 569,
+      "trip_id": 750,
+      "anomaly_score": 0.6805973758604724,
+      "speed_mean": 84.78210426401868,
+      "rpm_max": 3000.0,
+      "idle_fraction": 0.010280373831775701,
+      "duration_sec": 4386.5
+    },
+    {
+      "rank": 10,
+      "vehicle_id": 569,
+      "trip_id": 358,
+      "anomaly_score": 0.6803527156499336,
+      "speed_mean": 23.94952398145333,
+      "rpm_max": 2407.0,
+      "idle_fraction": 0.2718151413803588,
+      "duration_sec": 4569.0
+    },
+    {
+      "rank": 11,
+      "vehicle_id": 189,
+      "trip_id": 1910,
+      "anomaly_score": 0.6794016471071237,
+      "speed_mean": 5.963488843813387,
+      "rpm_max": 2557.0,
+      "idle_fraction": 0.6849898580121704,
+      "duration_sec": 6895.3
+    },
+    {
+      "rank": 12,
+      "vehicle_id": 108,
+      "trip_id": 1494,
+      "anomaly_score": 0.678767459691887,
+      "speed_mean": 71.5842044134727,
+      "rpm_max": 4739.0,
+      "idle_fraction": 0.06562137049941928,
+      "duration_sec": 4915.0
+    },
+    {
+      "rank": 13,
+      "vehicle_id": 492,
+      "trip_id": 1655,
+      "anomaly_score": 0.6771293886373376,
+      "speed_mean": 93.39205629770993,
+      "rpm_max": 3953.0,
+      "idle_fraction": 0.003816793893129771,
+      "duration_sec": 767.2
+    },
+    {
+      "rank": 14,
+      "vehicle_id": 567,
+      "trip_id": 3779,
+      "anomaly_score": 0.6744854123096251,
+      "speed_mean": 59.226438376168225,
+      "rpm_max": 3185.0,
+      "idle_fraction": 0.19439252336448598,
+      "duration_sec": 4633.2
+    },
+    {
+      "rank": 15,
+      "vehicle_id": 492,
+      "trip_id": 1761,
+      "anomaly_score": 0.6716963491202604,
+      "speed_mean": 105.45207177901024,
+      "rpm_max": 3559.0,
+      "idle_fraction": 0.0,
+      "duration_sec": 581.4
+    },
+    {
+      "rank": 16,
+      "vehicle_id": 189,
+      "trip_id": 1866,
+      "anomaly_score": 0.6710574715827752,
+      "speed_mean": 5.8647373387857815,
+      "rpm_max": 2369.0,
+      "idle_fraction": 0.6766278703994967,
+      "duration_sec": 8646.5
+    },
+    {
+      "rank": 17,
+      "vehicle_id": 503,
+      "trip_id": 892,
+      "anomaly_score": 0.6669973298600632,
+      "speed_mean": 6.192236217220731,
+      "rpm_max": 2865.0,
+      "idle_fraction": 0.8348131323559776,
+      "duration_sec": 5922.0
+    },
+    {
+      "rank": 18,
+      "vehicle_id": 545,
+      "trip_id": 387,
+      "anomaly_score": 0.6660886281268625,
+      "speed_mean": 101.02535408004158,
+      "rpm_max": 4497.0,
+      "idle_fraction": 0.006237006237006237,
+      "duration_sec": 543.0
+    },
+    {
+      "rank": 19,
+      "vehicle_id": 465,
+      "trip_id": 956,
+      "anomaly_score": 0.6643903537782752,
+      "speed_mean": 57.95722683965133,
+      "rpm_max": 4933.0,
+      "idle_fraction": 0.09446584228664098,
+      "duration_sec": 7405.8
+    },
+    {
+      "rank": 20,
+      "vehicle_id": 492,
+      "trip_id": 2581,
+      "anomaly_score": 0.6642813696602866,
+      "speed_mean": 94.8354691960038,
+      "rpm_max": 4005.0,
+      "idle_fraction": 0.0,
+      "duration_sec": 577.7
+    }
+  ],
+  "clusters": {
+    "prolonged_idle": {
+      "vehicles": [
+        189,
+        169,
+        503
+      ],
+      "pattern": "speed<7, idle>65%, duration>5000s"
+    },
+    "aggressive_driving": {
+      "vehicles": [
+        492,
+        545,
+        569
+      ],
+      "pattern": "speed>80, rpm_max>4000, idle<10%"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+# ───────── Python ─────────
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# ───────── OS ─────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ───────── IDE ─────────
+.vscode/
+.idea/
+*.code-workspace
+
+# ───────── Public datasets (download from original sources — see README) ─────────
+data/scania/
+data/obd2/
+data/ved/
+data/can/
+
+# ───────── Build / temp ─────────
+*.log
+*.tmp
+node_modules/
+
+# ───────── Sensitive ─────────
+.env
+*.key
+*.pem
+secrets/
