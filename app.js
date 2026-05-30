@@ -1,14 +1,5 @@
-/* ═══════════════════════════════════════════════════════════
-   Smart Transport Analytics — Dashboard JS (final)
-   AITU Diploma · 2026
 
-   - Interactive OBD-II Mechanical Stress Detector
-   - CAN bus animation with attack modes
-   - FAQ accordion
-   - Static populations: APS stats, VED table, etc.
-═══════════════════════════════════════════════════════════ */
 
-// ─── Configuration ─────────────────────────────────────────
 const ASSETS = {
   data: {
     aps:          'assets/data/scania_aps_results.json',
@@ -22,7 +13,6 @@ const ASSETS = {
   },
 };
 
-// ─── Global state ──────────────────────────────────────────
 const state = {
   apsResults: null,
   vedResults: null,
@@ -35,20 +25,15 @@ const state = {
   canAnimationInterval: null,
 };
 
-// Verdict thresholds (model probability of CRITICAL class)
 const VERDICT_THRESHOLDS = {
-  safe: 0.30,   // proba(critical) + proba(diagnostic) < 30% → SAFE TO DRIVE
-  warn: 0.65,   // 30-65% → DIAGNOSTIC NEEDED
-                // >65% → DO NOT DRIVE
+  safe: 0.30,   
+  warn: 0.65,   
+
 };
 
-// ═══════════════════════════════════════════════════════════
-// MAIN INITIALIZATION
-// ═══════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 
-  // Load all JSON in parallel
   try {
     await Promise.all([
       loadJson('aps'),
@@ -61,20 +46,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.warn('Some artifacts failed to load:', err);
   }
 
-  // Populate static content
   populateApsStats();
   populateObdStats();
   populateVedTable();
 
-  // Load field validation data (separate fetch — file may not exist yet)
   loadFieldValidation();
 
-  // Initialize interactive components
   initializeSliders();
   setupPresets();
   setupFAQ();
 
-  // Load OBD ONNX model in background
   loadObdModel().then(() => {
     setTryItStatus('ok', '✓ Model loaded · ready to predict');
     if (state.obdSession) runObdInference();
@@ -86,9 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 });
 
-// ═══════════════════════════════════════════════════════════
-// JSON LOADING
-// ═══════════════════════════════════════════════════════════
 async function loadJson(key) {
   const path = ASSETS.data[key];
   if (!path) return;
@@ -106,9 +84,6 @@ async function loadJson(key) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// POPULATE STATIC CONTENT
-// ═══════════════════════════════════════════════════════════
 function populateApsStats() {
   if (!state.apsResults) return;
   const r = state.apsResults;
@@ -176,9 +151,6 @@ function formatDuration(seconds) {
   return `${mins}m ${secs.toString().padStart(2, '0')}s`;
 }
 
-// ═══════════════════════════════════════════════════════════
-// ONNX MODEL LOADING
-// ═══════════════════════════════════════════════════════════
 async function loadObdModel() {
   if (typeof ort === 'undefined') {
     throw new Error('ONNX Runtime Web not loaded');
@@ -212,9 +184,6 @@ function setTryItStatus(status, text) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ═══════════════════════════════════════════════════════════
-// FIELD VALIDATION — fetch JSON and populate stats
-// ═══════════════════════════════════════════════════════════
 async function loadFieldValidation() {
   try {
     const r = await fetch('assets/data/field_validation_results.json');
@@ -241,20 +210,8 @@ async function loadFieldValidation() {
     setText('field-samples', samples.toLocaleString());
     setText('field-drivers', `${drivers.length} · ${vehicles.length}`);
 
-    // Mirror to findings-nav card
     setText('nav-field-trips', nTrips);
     setText('nav-field-hours', hours.toFixed(1));
-
-    // Conditional banner — hide when collection is meaningful (5+ trips)
-    const banner = document.getElementById('field-banner');
-    if (banner) {
-      if (nTrips < 5) {
-        banner.hidden = false;
-        setText('field-banner-trips', nTrips);
-      } else {
-        banner.hidden = true;
-      }
-    }
 
     console.log(`Field validation loaded: ${nTrips} trips, ${hours.toFixed(1)} h, ${samples.toLocaleString()} samples`);
   } catch (e) {
@@ -262,9 +219,6 @@ async function loadFieldValidation() {
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// SLIDERS — initialization
-// ═══════════════════════════════════════════════════════════
 const FALLBACK_RANGES = {
   'ENGINE_RPM':                {'min': 600, 'max': 7000, 'step': 50, 'default': 1500, 'unit': 'rpm'},
   'THROTTLE_POS':              {'min': 0,   'max': 100,  'step': 1,  'default': 15,   'unit': '%'},
@@ -283,7 +237,6 @@ const DISPLAY_NAMES = {
   'INTAKE_MANIFOLD_PRESSURE':  'Manifold pressure',
 };
 
-// "Normal" ranges shown as hints under each slider
 const NORMAL_HINTS = {
   'ENGINE_RPM':                '800–2500 rpm',
   'THROTTLE_POS':              '5–30 %',
@@ -336,7 +289,6 @@ function initializeSliders() {
     container.appendChild(row);
   });
 
-  // Wire up listeners
   document.querySelectorAll('.slider-input').forEach((slider) => {
     slider.addEventListener('input', onSliderChange);
   });
@@ -361,9 +313,6 @@ function onSliderChange(e) {
   state.pendingInference = setTimeout(runObdInference, 50);
 }
 
-// ═══════════════════════════════════════════════════════════
-// PRESETS
-// ═══════════════════════════════════════════════════════════
 function setupPresets() {
   document.querySelectorAll('.preset-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -411,9 +360,6 @@ function applyPreset(scenarioName) {
   runObdInference();
 }
 
-// ═══════════════════════════════════════════════════════════
-// OBD-II INFERENCE (real-time)
-// ═══════════════════════════════════════════════════════════
 async function runObdInference() {
   if (!state.obdSession) return;
 
@@ -449,20 +395,18 @@ async function runObdInference() {
 }
 
 function updateVerdict(proba, elapsedUs) {
-  // proba = [Normal, Diagnostic, Critical]
+
   const probaDiagnostic = proba[1];
   const probaCritical = proba[2];
 
-  // Risk = blend of (a) rule-based deviation score and (b) ONNX model output.
-  // The model is trained on rule-based labels so its softmax has sharp class
-  // boundaries — using deviation as the dominant signal gives sliders a smooth,
-  // proportional response; ONNX still contributes learned interaction effects.
-  // Both sources are transparent and Bosch-grounded.
+  
+
+  
+
   const modelRisk = (probaDiagnostic * 0.5 + probaCritical * 1.0);
   const deviationRisk = computeDeviationRisk();
   const risk = Math.max(0, Math.min(1, 0.7 * deviationRisk + 0.3 * modelRisk));
 
-  // Determine verdict
   let verdictLabel, verdictClass, verdictIcon;
   if (risk < VERDICT_THRESHOLDS.safe) {
     verdictLabel = 'SAFE TO DRIVE';
@@ -478,7 +422,6 @@ function updateVerdict(proba, elapsedUs) {
     verdictIcon = 'alert-triangle';
   }
 
-  // Update badge
   const badge = document.getElementById('verdict-badge');
   if (badge) badge.className = 'verdict-badge ' + verdictClass;
 
@@ -487,23 +430,17 @@ function updateVerdict(proba, elapsedUs) {
 
   setText('verdict-label', verdictLabel);
 
-  // Update gauge marker position (0% → 100%)
   setText('gauge-value', `${(risk * 100).toFixed(0)}%`);
   const marker = document.getElementById('gauge-marker');
   if (marker) marker.style.left = `${risk * 100}%`;
 
-  // Update contributors list (independent deviation-based explanation layer)
   updateContributors();
 
-  // Latency
   setText('verdict-latency', `${elapsedUs} µs`);
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// Aggregate deviation across all 6 sensors → continuous risk 0-1.
-// Each sensor's score = how many "range-widths" the value is outside normal.
-// Sum across sensors; ~3 fully-deviated sensors = 100% deviation risk.
 function computeDeviationRisk() {
   const features = Object.keys(NORMAL_RANGES);
   let sum = 0;
@@ -513,18 +450,6 @@ function computeDeviationRisk() {
   return Math.min(1, sum / 3);
 }
 
-// ═══════════════════════════════════════════════════════════
-// CONTRIBUTORS — "sensors needing attention" (deviation-based)
-//
-// This is an INDEPENDENT interpretability layer, not part of the
-// prediction. It ranks input features by how far they deviate from
-// normal operating ranges and shows per-sensor advice. The risk %
-// above comes purely from the ONNX model.
-// ═══════════════════════════════════════════════════════════
-
-// Normal operating ranges per feature (grounded in Bosch Automotive
-// Handbook and SAE J1979 guidance). Used for deviation scoring and
-// advice text. Not used in inference.
 const NORMAL_RANGES = {
   'ENGINE_RPM':                [800, 2500],
   'THROTTLE_POS':              [5, 30],
@@ -552,7 +477,6 @@ const FEATURE_DISPLAY_NAMES = {
   'INTAKE_MANIFOLD_PRESSURE':  'Manifold pressure',
 };
 
-// Per-sensor advice text. Keys: low/high/normal.
 const RECOMMENDATIONS = {
   'ENGINE_RPM': {
     low:    'Engine speed below idle range — possible stalling or idle-control fault.',
@@ -612,7 +536,6 @@ function updateContributors() {
 
   const v = state.sliderValues;
 
-  // Rank features by deviation score
   const scored = Object.keys(NORMAL_RANGES).map((feat) => ({
     feat,
     value: v[feat],
@@ -620,7 +543,6 @@ function updateContributors() {
     status: rangeStatus(feat, v[feat]),
   }));
 
-  // Take top 3 most-deviated (only those actually deviating)
   const deviating = scored
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
@@ -641,7 +563,7 @@ function updateContributors() {
     const unit = FEATURE_UNITS[s.feat];
     const name = FEATURE_DISPLAY_NAMES[s.feat];
     const advice = RECOMMENDATIONS[s.feat][s.status];
-    // Severity: status 'low' or 'high' with score > 1.5 → danger, else warn
+
     const level = s.score > 1.5 ? 'danger' : 'warn';
 
     const li = document.createElement('li');
@@ -658,28 +580,19 @@ function updateContributors() {
   });
 }
 
-
-// ═══════════════════════════════════════════════════════════
-// FAQ ACCORDION
-// ═══════════════════════════════════════════════════════════
 function setupFAQ() {
   document.querySelectorAll('.faq-q').forEach((btn) => {
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
       const wasOpen = item.classList.contains('faq-open');
 
-      // Close all others
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('faq-open'));
 
-      // Toggle this one
       if (!wasOpen) item.classList.add('faq-open');
     });
   });
 }
 
-// ═══════════════════════════════════════════════════════════
-// UTILITIES
-// ═══════════════════════════════════════════════════════════
 function setText(id, text) {
   const el = document.getElementById(id);
   if (el) el.textContent = text;
@@ -691,9 +604,6 @@ function safeNum(x) {
   return Number.isFinite(n) ? n : null;
 }
 
-// ═══════════════════════════════════════════════════════════
-// FALLBACK DATA
-// ═══════════════════════════════════════════════════════════
 const HARDCODED_VED_TOP20 = [
   { rank: 1,  vehicle_id: 189, trip_id: 2030, anomaly_score: 0.700, speed_mean: 2.3,   rpm_max: 1975, idle_fraction: 0.884, duration_sec: 6560 },
   { rank: 2,  vehicle_id: 189, trip_id: 2425, anomaly_score: 0.699, speed_mean: 1.0,   rpm_max: 2089, idle_fraction: 0.950, duration_sec: 7326 },

@@ -1,10 +1,7 @@
-/* ═══════════════════════════════════════════════════════════
-   Smart Transport Analytics — Dashboard Styles
-   AITU Diploma · 2026 (final, polished)
-═══════════════════════════════════════════════════════════ */
+
 
 :root {
-  /* Palette */
+
   --navy-deepest:  #050E1E;
   --navy-deep:     #0B1A33;
   --navy:          #11254A;
@@ -66,7 +63,6 @@
   --tr-slow: 350ms ease-out;
 }
 
-/* ─── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -127,9 +123,6 @@ table {
   font-feature-settings: 'tnum' 1, 'lnum' 1;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   HEADER
-═══════════════════════════════════════════════════════════ */
 #site-header {
   position: sticky;
   top: 0;
@@ -216,9 +209,6 @@ table {
 
 .main-nav a:hover::after { transform: scaleX(1); }
 
-/* ═══════════════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════════════ */
 #hero {
   position: relative;
   background: linear-gradient(180deg, var(--navy-deepest) 0%, var(--navy-deep) 70%, var(--navy) 100%);
@@ -356,9 +346,6 @@ table {
   line-height: 1.4;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TRY IT — INTERACTIVE OBD-II
-═══════════════════════════════════════════════════════════ */
 #try-it {
   background: linear-gradient(180deg, var(--surface) 0%, var(--surface-alt) 100%);
   padding: var(--sp-24) 0;
@@ -434,7 +421,6 @@ table {
   border-color: rgba(220, 38, 38, 0.3);
 }
 
-/* ─── Preset buttons ────────────────────────────────────── */
 .tryit-presets {
   display: grid;
   grid-template-columns: 1fr;
@@ -503,7 +489,6 @@ table {
   line-height: 1.3;
 }
 
-/* ─── Main grid: sliders + verdict ──────────────────────── */
 .tryit-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -517,7 +502,6 @@ table {
   }
 }
 
-/* ─── Sliders panel ─────────────────────────────────────── */
 .tryit-sliders {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -603,7 +587,6 @@ table {
   margin-top: 2px;
 }
 
-/* ─── Verdict panel ─────────────────────────────────────── */
 .tryit-verdict {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -674,7 +657,6 @@ table {
   margin-bottom: 4px;
 }
 
-/* ─── Gauge ─────────────────────────────────────────────── */
 .verdict-gauge {
   display: flex;
   flex-direction: column;
@@ -754,7 +736,6 @@ table {
   margin-top: 2px;
 }
 
-/* ─── Contributors list ─────────────────────────────────── */
 .verdict-contributors {
   background: var(--surface-alt);
   border-radius: var(--r-md);
@@ -815,7 +796,6 @@ table {
   font-style: italic;
 }
 
-/* ─── Verdict footer ────────────────────────────────────── */
 .verdict-footer {
   display: flex;
   gap: var(--sp-4);
@@ -839,9 +819,6 @@ table {
   font-weight: 600;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PIPELINE + CONTRIBUTIONS
-═══════════════════════════════════════════════════════════ */
 #pipeline {
   padding: var(--sp-20) 0;
   background: var(--surface);
@@ -890,7 +867,6 @@ table {
   margin: 0;
 }
 
-/* ── Pipeline diagram ──────────────────────────────────── */
 .pipeline-diagram {
   display: flex;
   align-items: center;
@@ -961,7 +937,6 @@ table {
   .pipeline-stage { width: 100%; max-width: 280px; }
 }
 
-/* ── Contribution cards ────────────────────────────────── */
 .contributions {
   margin-top: var(--sp-12);
 }
@@ -1039,7 +1014,6 @@ table {
   font-weight: 700;
 }
 
-/* Contribution card as link */
 .contribution-card-link {
   text-decoration: none;
   color: inherit;
@@ -1062,7 +1036,6 @@ table {
   transform: translateX(4px);
 }
 
-/* ── Finding banner (conditional rendering) ───────────── */
 .finding-banner {
   display: flex;
   align-items: flex-start;
@@ -1094,13 +1067,11 @@ table {
   color: var(--text-primary);
 }
 
-/* ── Finding 05 field validation accent ───────────────── */
 .finding-field .finding-eyebrow {
   color: var(--green-deep, #047857);
   background: rgba(16, 185, 129, 0.12);
 }
 
-/* ── GitHub link in footer ─────────────────────────────── */
 .footer-github-link {
   display: inline-flex !important;
   align-items: center;
@@ -1113,9 +1084,6 @@ table {
 .footer-github-link:hover { color: var(--blue-soft) !important; }
 .footer-github-link i { width: 14px; height: 14px; }
 
-/* ═══════════════════════════════════════════════════════════
-   FINDINGS NAV
-═══════════════════════════════════════════════════════════ */
 #findings-nav {
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -1198,9 +1166,6 @@ table {
 
 .finding-nav-critical .finding-nav-result strong { color: var(--red); }
 
-/* ═══════════════════════════════════════════════════════════
-   FINDING SECTIONS
-═══════════════════════════════════════════════════════════ */
 .finding {
   padding: var(--sp-24) 0;
   background: var(--bg);
@@ -1277,7 +1242,6 @@ table {
   max-width: 780px;
 }
 
-/* ─── Stats row ─────────────────────────────────────────── */
 .finding-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1388,7 +1352,6 @@ table {
   letter-spacing: 0.05em;
 }
 
-/* ─── Single plot block (per subsystem — only 1 plot) ─── */
 .finding-plot-block {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1424,7 +1387,6 @@ table {
   color: var(--text-secondary);
 }
 
-/* ─── Methodology block ─────────────────────────────────── */
 .finding-methodology {
   padding: var(--sp-6) var(--sp-8);
   background: var(--navy-deep);
@@ -1470,7 +1432,6 @@ table {
   font-weight: 700;
 }
 
-/* ─── Table ─────────────────────────────────────────────── */
 .finding-table-block { margin-top: var(--sp-4); }
 
 .finding-table-label {
@@ -1532,7 +1493,6 @@ table {
   color: var(--red);
 }
 
-/* ─── Quote pull ────────────────────────────────────────── */
 .finding-quote {
   margin-top: var(--sp-8);
   padding: var(--sp-8);
@@ -1560,9 +1520,6 @@ table {
   font-style: italic;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CAN BUS VISUALIZATION — simplified horizontal frame flow
-═══════════════════════════════════════════════════════════ */
 .can-viz {
   position: relative;
   background: var(--surface);
@@ -1755,9 +1712,6 @@ table {
   .can-attack-cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   FAQ
-═══════════════════════════════════════════════════════════ */
 #faq {
   padding: var(--sp-24) 0;
   background: var(--surface);
@@ -1877,10 +1831,6 @@ table {
 .faq-a p em { color: var(--text-primary); font-style: italic; }
 .faq-a p strong { color: var(--text-primary); }
 
-
-/* ═══════════════════════════════════════════════════════════
-   FOOTER (3-column layout)
-═══════════════════════════════════════════════════════════ */
 .site-footer {
   background: var(--navy-deepest);
   color: rgba(248, 250, 252, 0.85);
@@ -2032,9 +1982,6 @@ table {
   color: rgba(255, 255, 255, 0.45);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TOOLTIPS (data-tooltip on .has-tooltip)
-═══════════════════════════════════════════════════════════ */
 .has-tooltip {
   position: relative;
   cursor: help;
@@ -2056,7 +2003,7 @@ table {
   padding: 10px 14px;
   background: var(--navy-deepest);
   color: var(--text-inverse);
-  -webkit-text-fill-color: initial;  /* override gradient-text inheritance from .accent */
+  -webkit-text-fill-color: initial;  
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 13px;
@@ -2093,15 +2040,12 @@ table {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Hero/dark contexts: invert tooltip to white-on-navy → white-bg-navy-text */
 .hero-desc .has-tooltip,
 .hero-title .has-tooltip {
   color: var(--blue-soft);
   border-bottom-color: rgba(147, 197, 253, 0.6);
 }
 
-/* When tooltip trigger sits inside .accent gradient text, the gradient masks
-   the underline. Force solid color + visible underline for the trigger word. */
 .hero-title .accent.has-tooltip {
   -webkit-text-fill-color: var(--blue-soft);
   background: none;
@@ -2123,9 +2067,6 @@ table {
   border-top-color: var(--text-inverse);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CONTRIBUTORS — enhanced per-sensor advice cards
-═══════════════════════════════════════════════════════════ */
 .contributors-list li.contrib-warn,
 .contributors-list li.contrib-danger {
   display: block;
@@ -2163,9 +2104,6 @@ table {
   line-height: 1.45;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR + SELECTION
-═══════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: var(--surface-alt); }
 ::-webkit-scrollbar-thumb {
@@ -2177,9 +2115,6 @@ table {
 
 ::selection { background: var(--blue); color: var(--text-inverse); }
 
-/* ═══════════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   #hero { padding: var(--sp-16) 0 var(--sp-12); }
   .hero-title { font-size: 32px; }
@@ -2214,14 +2149,13 @@ table {
   .faq-a p { padding: 0 var(--sp-4) var(--sp-4); font-size: 13.5px; }
 }
 
-/* ===== Animated shimmer STA logo ===== */
 .logo-mark {
   width: 46px; height: 46px;
   border-radius: 12px;
   display: grid; place-items: center;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700; font-size: 15px; letter-spacing: 0.12em;
-  text-indent: 0.12em; /* balance the tracking */
+  text-indent: 0.12em; 
   color: #fff; flex-shrink: 0;
   background: linear-gradient(125deg, #0B1A33, #11254A, #2563EB, #11254A, #0B1A33);
   background-size: 220% 220%;
@@ -2234,7 +2168,6 @@ table {
   100% { background-position: 0% 50%; }
 }
 
-/* ===== Install app button ===== */
 .install-btn {
   display: none; align-items: center; gap: 8px;
   padding: 9px 16px; border: none; border-radius: 10px;
@@ -2247,9 +2180,6 @@ table {
 .install-btn.show { display: inline-flex; }
 .install-btn svg { width: 16px; height: 16px; }
 
-/* ═══════════════ DESIGN ACCENTS (additive) ═══════════════ */
-
-/* ⑦ Gradient accent bar under section headings */
 .finding-title { position: relative; }
 .finding-title::after {
   content: "";
@@ -2260,14 +2190,12 @@ table {
   background: linear-gradient(90deg, #11254A, #2563EB);
 }
 
-/* ④ Gradient text on big hero numbers (ties to logo) */
 .stat-num .mono {
   background: linear-gradient(120deg, #11254A 10%, #2563EB 90%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: #2563EB;
 }
 
-/* ⑥ Soft animated gradient blobs in hero */
 .hero-glow { animation: blob-drift 16s ease-in-out infinite; }
 @keyframes blob-drift {
   0%,100% { transform: translateX(-50%) translateY(0) scale(1); }
@@ -2286,7 +2214,6 @@ table {
   50%     { transform: translateY(-26px) scale(1.1); }
 }
 
-/* ③ Card hover lift */
 .stat, .contribution-card {
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
@@ -2295,10 +2222,175 @@ table {
   box-shadow: 0 12px 28px rgba(17,37,74,0.10);
 }
 
-/* ② Scroll-reveal (class added by JS; if JS off, nothing hidden) */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-glow, #hero::after { animation: none; }
+}
+
+html, body { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+img, video, canvas, svg { max-width: 100%; height: auto; }
+
+button, a, [role="button"], input[type="range"], input[type="checkbox"], select {
+  min-height: 44px;
+}
+.preset-btn, .try-it-btn, .install-btn { min-height: 44px; padding: 10px 16px; }
+
+table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.finding-plot, .plot, img.plot, .finding-plot-block img {
+  width: 100%; max-width: 100%; height: auto; display: block;
+}
+
+@media (max-width: 900px) {
+
+  .container, .hero-grid, .finding > .container { padding-left: 16px; padding-right: 16px; }
+
+  section, .finding { padding-top: 48px; padding-bottom: 48px; }
+
+  .hero-title, h1 { font-size: clamp(28px, 7vw, 44px); line-height: 1.15; }
+  .hero-subtitle, .hero-sub { font-size: clamp(15px, 3.5vw, 18px); }
+
+  .hero-stats, .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+
+  .finding-title, h2 { font-size: clamp(22px, 5vw, 32px); line-height: 1.2; }
+
+  .stat, .finding-nav-card, .contribution-card { padding: 16px; }
+
+  .finding-plot-block { padding: 12px; }
+  .finding-plot-label { font-size: 13px; }
+  .finding-plot-caption { font-size: 13px; line-height: 1.45; }
+
+  .finding-methodology { padding: 16px; }
+  .methodology-list li { font-size: 14px; line-height: 1.5; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+
+  .main-nav { gap: 4px; flex-wrap: wrap; }
+  .main-nav a {
+    font-size: 13px; padding: 8px 10px;
+    border-radius: 8px;
+  }
+
+  .main-nav .nav-secondary { display: none; }
+
+  .install-btn { padding: 8px 12px; font-size: 13px; }
+  .install-btn span, .install-btn-text { display: none; } 
+
+  .hero-stats, .stats-grid { gap: 10px; }
+  .stat { padding: 14px; }
+  .stat-num { font-size: clamp(28px, 9vw, 40px); }
+  .stat-label { font-size: 12px; }
+
+  .findings-nav-grid { grid-template-columns: 1fr !important; gap: 12px; }
+  .finding-nav-card { padding: 16px; min-height: 96px; }
+  .finding-nav-title { font-size: 15px; }
+  .finding-nav-num { font-size: 11px; letter-spacing: 0.08em; }
+
+  .contributions-grid { grid-template-columns: 1fr !important; gap: 12px; }
+  .contribution-card { padding: 16px; }
+
+  .finding-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+  .finding-stat { padding: 12px; }
+  .finding-stat-label { font-size: 11px; }
+  .finding-stat-value { font-size: clamp(20px, 6vw, 28px); }
+
+  .finding-plot-block { padding: 10px; border-radius: 12px; }
+  .finding-plot { border-radius: 8px; }
+
+  table { font-size: 13px; }
+  table th, table td { padding: 8px 10px; white-space: nowrap; }
+
+  .try-it-grid, .try-it-content {
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+  .try-it-section { padding: 20px 14px; }
+  .slider-row { gap: 6px; margin-bottom: 14px; }
+  .slider-label { font-size: 14px; }
+  .slider-value { font-size: 14px; }
+
+  .verdict-display, .verdict-card { padding: 18px; }
+  .verdict-label { font-size: 22px; }
+
+  .presets-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; }
+  .preset-btn { padding: 12px; min-height: 56px; }
+
+  .finding-subtitle { font-size: 15px; line-height: 1.55; }
+
+  .methodology-list { padding-left: 18px; }
+  .methodology-list li { font-size: 13.5px; margin-bottom: 8px; }
+
+  .finding-banner { padding: 12px 14px; }
+  .finding-banner-text { font-size: 13px; }
+
+  .site-footer, footer { padding: 24px 16px; }
+  .footer-grid, .footer-cols { grid-template-columns: 1fr !important; gap: 18px; text-align: left; }
+
+  #hero::after { display: none; }   
+  .hero-glow { opacity: 0.55; }      
+
+  section, .finding { padding-top: 36px; padding-bottom: 36px; }
+
+  .finding-title, h2 { font-size: clamp(20px, 5.5vw, 28px); }
+
+  .finding-title::after { width: 48px; }
+}
+
+@media (max-width: 380px) {
+  body { font-size: 14px; }
+  .container, .hero-grid, .finding > .container { padding-left: 12px; padding-right: 12px; }
+
+  .hero-stats, .stats-grid { grid-template-columns: 1fr !important; }
+  .stat-num { font-size: 32px; }
+
+  .finding-stats { grid-template-columns: 1fr !important; }
+
+  .logo-mark { width: 40px; height: 40px; font-size: 16px; }
+  .logo-text { font-size: 14px; }
+
+  .presets-grid { grid-template-columns: 1fr !important; }
+
+  .main-nav a { font-size: 12px; padding: 6px 8px; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+  .hero { padding-top: 32px; padding-bottom: 32px; }
+  .hero-title { font-size: 28px; }
+  .hero-glow { opacity: 0.4; }
+}
+
+@media (min-width: 1600px) {
+  .container, .hero-grid, .finding > .container { max-width: 1280px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-glow, #hero::after, .logo-mark { animation: none !important; }
+}
+
+@media (max-width: 640px) {
+  .verdict-gauge, .gauge-container, .verdict-display,
+  .verdict-svg, .verdict-card {
+    overflow: visible !important;
+    max-width: 100%;
+  }
+  .verdict-gauge svg, .verdict-svg, .gauge-svg {
+    width: 100%;
+    height: auto;
+    max-width: 320px;
+    display: block;
+    margin: 0 auto;
+  }
+  .verdict-label, .gauge-value { font-size: 18px; }
+  .finding-banner, #field-banner { display: none !important; }
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- PWA -->
+
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1A3A5C">
   <link rel="apple-touch-icon" href="icon.png">
@@ -12,22 +12,17 @@
   <meta name="apple-mobile-web-app-title" content="STA">
   <title>Smart Transport Analytics — AITU Diploma 2026</title>
 
-  <!-- Fonts -->
   <link rel="stylesheet" href="vendor/fonts/fonts.css">
 
-  <!-- Icons -->
   <script src="vendor/lucide.min.js"></script>
 
-  <!-- ONNX Runtime Web -->
   <script src="vendor/onnxruntime/ort.min.js"></script>
   <script>if(window.ort){ort.env.wasm.wasmPaths="vendor/onnxruntime/";}</script>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- header -->
 <header id="site-header">
   <div class="header-inner">
     <a href="#hero" class="logo">
@@ -52,7 +47,6 @@
   </div>
 </header>
 
-<!-- hero -->
 <section id="hero">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
@@ -101,7 +95,6 @@
   </div>
 </section>
 
-<!-- try it — interactive obd-ii stress detector -->
 <section id="try-it">
   <div class="container">
 
@@ -122,7 +115,6 @@
       </div>
     </div>
 
-    <!-- Preset buttons -->
     <div class="tryit-presets">
       <button class="preset-btn preset-safe" data-scenario="normal">
         <div class="preset-icon"><i data-lucide="check-circle"></i></div>
@@ -147,11 +139,10 @@
       </button>
     </div>
 
-    <!-- Main grid: sliders + verdict -->
     <div class="tryit-grid">
 
       <div class="tryit-sliders" id="sliders-container">
-        <!-- Populated by JS -->
+
       </div>
 
       <div class="tryit-verdict">
@@ -201,7 +192,6 @@
   </div>
 </section>
 
-<!-- pipeline overview + contributions -->
 <section id="pipeline">
   <div class="container">
 
@@ -289,7 +279,6 @@
   </div>
 </section>
 
-<!-- findings nav -->
 <section id="findings-nav">
   <div class="container">
     <div class="findings-nav-grid">
@@ -322,7 +311,6 @@
   </div>
 </section>
 
-<!-- finding 01 — scania aps -->
 <section id="finding-1" class="finding">
   <div class="container">
 
@@ -372,7 +360,6 @@
   </div>
 </section>
 
-<!-- finding 02 — ved -->
 <section id="finding-2" class="finding">
   <div class="container">
 
@@ -436,7 +423,7 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Populated by JS -->
+
           </tbody>
         </table>
       </div>
@@ -445,7 +432,6 @@
   </div>
 </section>
 
-<!-- finding 03 — obd-ii stress detector -->
 <section id="finding-3" class="finding">
   <div class="container">
 
@@ -503,7 +489,6 @@
   </div>
 </section>
 
-<!-- finding 04 — can intrusion (with bus animation) -->
 <section id="finding-4" class="finding finding-critical">
   <div class="container">
 
@@ -520,7 +505,6 @@
       </p>
     </div>
 
-    <!-- CAN BUS VISUALIZATION (simplified — horizontal frame flow with shield) -->
     <div class="can-viz">
       <div class="can-vehicle">
         <div class="can-car">
@@ -628,19 +612,8 @@
   </div>
 </section>
 
-<!-- finding 05 — real-world field validation -->
 <section id="finding-5" class="finding finding-field">
   <div class="container">
-
-    <div class="finding-banner" id="field-banner" hidden>
-      <i data-lucide="info"></i>
-      <div class="finding-banner-text">
-        <strong>Ongoing collection.</strong> Results below are preliminary —
-        based on <span id="field-banner-trips">—</span> trip(s) so far. The pipeline
-        is set up to ingest more drives as we collect them; figures and stats
-        will update automatically.
-      </div>
-    </div>
 
     <div class="finding-tag finding-tag-field">FINDING 05 · DEPLOYMENT VALIDATION</div>
     <h2 class="finding-title">Validating the OBD-II model on real driving data</h2>
@@ -719,7 +692,6 @@
   </div>
 </section>
 
-<!-- faq -->
 <section id="faq">
   <div class="container">
 
@@ -855,7 +827,6 @@
   </div>
 </section>
 
-<!-- footer -->
 <footer id="site-footer" class="site-footer">
   <div class="container">
     <div class="footer-top">
@@ -895,8 +866,8 @@
           <div class="footer-col-title">Project</div>
           <a href="#hero">Overview</a>
           <a href="#pipeline">Pipeline</a>
-          <a href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank" rel="noopener" class="footer-github-link">
-            <i data-lucide="github"></i>
+          <a href="https://github.com/altynbk/smart-transport-analytics" target="_blank" rel="noopener" class="footer-github-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.03 0 0 .96-.31 3.15 1.18a10.97 10.97 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.74.11 3.03.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.37-5.25 5.65.41.35.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.14 0 .31.21.67.8.56C20.71 21.39 24 17.08 24 12 24 5.65 18.85.5 12 .5Z"/></svg>
             <span>Source on GitHub</span>
           </a>
         </div>
