@@ -32,7 +32,7 @@
         <div class="logo-line-2">AITU Diploma · 2026</div>
       </div>
     </a>
-    <nav class="main-nav">
+    <nav class="main-nav" id="main-nav">
       <a href="#try-it">Try it</a>
       <a href="#finding-1">Scania APS</a>
       <a href="#finding-2">VED</a>
@@ -44,8 +44,12 @@
     <button id="install-btn" class="install-btn" title="Install as an app">
       <i data-lucide="download"></i> Install app
     </button>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+<div id="nav-backdrop" class="nav-backdrop"></div>
 
 <section id="hero">
   <div class="hero-grid"></div>
@@ -603,9 +607,10 @@
     <div class="finding-quote">
       <i data-lucide="quote"></i>
       <p>
-        Without cross-file evaluation, our CAN-IDS would have reported F1 = 1.0 —
-        a number indistinguishable from the published state of the art, and equally
-        useless in production. Quantifying the leakage gap is itself the contribution.
+        Without <strong>cross-file evaluation</strong>, our CAN-IDS would have reported
+        F1 = 1.0 — indistinguishable from the published state of the art, and equally
+        useless in production. Quantifying the <strong>leakage gap</strong> is itself
+        the contribution.
       </p>
     </div>
 
@@ -614,6 +619,16 @@
 
 <section id="finding-5" class="finding finding-field">
   <div class="container">
+
+    <div class="finding-banner" id="field-banner" hidden>
+      <i data-lucide="info"></i>
+      <div class="finding-banner-text">
+        <strong>Ongoing collection.</strong> Results below are preliminary —
+        based on <span id="field-banner-trips">—</span> trip(s) so far. The pipeline
+        is set up to ingest more drives as we collect them; figures and stats
+        will update automatically.
+      </div>
+    </div>
 
     <div class="finding-tag finding-tag-field">FINDING 05 · DEPLOYMENT VALIDATION</div>
     <h2 class="finding-title">Validating the OBD-II model on real driving data</h2>
@@ -654,14 +669,13 @@
         <em>safe</em> / <em>diagnostic</em> / <em>do not drive</em> verdict zones.
         The ONNX model runs on every row — same model as the live demo above.
         <br><br>
-        <strong>Key field-validation finding:</strong> Both highway trips show
-        mean risk above the 0.65 do-not-drive threshold despite being routine
-        driving. This quantifies the <strong>synthetic-label gap</strong>: the
-        OBD-II model, trained on rule-based stress labels (Bosch thresholds),
-        systematically overestimates risk under sustained high-speed operation.
-        The discrepancy is not a model defect but the expected signature of
-        textbook-vs-real label distribution mismatch, and it directly motivates
-        the collection of real-world labels as the principal future-work item.
+        <strong>Key field-validation finding:</strong> Across <strong>10 trips</strong>
+        covering city, mixed and highway conditions, the OBD-II model shows elevated risk —
+        strongest on sustained highway, more moderate in city and mixed driving. This is
+        the expected signature of a <strong>synthetic-label gap</strong>: rule-based
+        training labels (Bosch thresholds) under-represent steady high-speed cruise, so
+        the model treats it as stress. Real labelled-fault data is the principal
+        future-work item that would calibrate this gap.
       </div>
     </div>
 

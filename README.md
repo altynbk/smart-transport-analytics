@@ -1,5 +1,10 @@
 # Smart Transport Analytics
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
+[![ONNX Runtime](https://img.shields.io/badge/ONNX-Runtime%20Web-orange.svg)](https://onnxruntime.ai/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://altynbk.github.io/smart-transport-analytics/)
+
 An intelligent system for predicting vehicle breakdowns from telematics and CAN data.
 Diploma project, **Astana IT University** — School of Intelligent Systems, June 2026.
 
@@ -12,11 +17,11 @@ Diploma project, **Astana IT University** — School of Intelligent Systems, Jun
 
 ## What it does
 
-Four machine-learning subsystems for vehicle health, deployed entirely in the browser:
+Four machine-learning subsystems for vehicle health, all deployed entirely in the browser:
 
 | # | Subsystem | Method | Result |
 |---|-----------|--------|--------|
-| 1 | **Scania APS** failure prediction | Cost-sensitive XGBoost | Total Cost 8,910 (rank 5/13), ROC AUC 0.9958 |
+| 1 | **Scania APS** failure prediction | Cost-sensitive XGBoost | Total Cost **8,910** (rank **5/13**), ROC AUC 0.9958 |
 | 2 | **VED** driving-anomaly detection | Isolation Forest (unsupervised) | 22.4M readings, 384 vehicles |
 | 3 | **OBD-II** real-time stress | XGBoost (3-class) | 99.73% accuracy, **22 µs** in the browser |
 | 4 | **CAN-bus** intrusion detection | 4 × XGBoost (cross-file evaluation) | Honest measurement of a **46.7-point** data-leakage gap |
@@ -33,10 +38,9 @@ Tap the install button to add it as an app — works fully offline after that.
 
 ### Locally
 ```bash
-# Serve the dashboard (any static server works)
 python -m http.server 8000
 # or VS Code "Go Live"
-# Then open  http://localhost:8000
+# Then open http://localhost:8000
 ```
 
 ---
@@ -51,29 +55,22 @@ smart-transport-analytics/
 ├── assets/                            ← dashboard data, models (.onnx), plots
 │
 ├── notebooks/                         ← training notebooks (01-05)
-├── data/field/                        ← our own collected data
+├── data/field/                        ← our own collected data (10 trips)
 ├── models/                            ← trained .onnx and .pkl
-├── outputs/                           ← generated figures and results
-└── docs/                              ← thesis PDF, presentation (optional)
+└── outputs/                           ← generated figures and results
 ```
 
 ---
 
 ## Datasets
 
-### Our own data (included in this repo)
-
-**`data/field/`** — **17,635 real OBD-II samples** collected by us from a vehicle
-over two highway trips on **16 May 2026** and **17 May 2026**. Recorded via a
-Vgate iCar Pro BLE 4.0 dongle. Used by notebook `05_field_validation.ipynb`
-to validate the deployed OBD-II model on real driving data.
+### Our own data (included)
+`data/field/` — **43,869 OBD-II samples** across **10 trips** (12.2 hours of driving)
+covering city, mixed and highway conditions. Recorded via Vgate iCar Pro BLE 4.0 dongle
+in May 2026. Used by `05_field_validation.ipynb` to validate the deployed ONNX OBD-II
+model on real driving data.
 
 ### Public datasets (download separately — not included)
-
-These are large public datasets we used during training. Download them from
-the original sources and place them in the paths shown below to reproduce
-notebooks 01-04. The pre-computed outputs are already saved in each notebook,
-so you can read everything without downloading.
 
 | Dataset | Notebook | Source | Place in |
 |---------|----------|--------|----------|
@@ -90,7 +87,9 @@ Each dataset is governed by its own licence.
 
 1. **Multi-domain integration** — failure, behaviour, stress and security in one deployable system.
 2. **Honest measurement of data leakage** — the 46.7-point cross-file gap most CAN-IDS papers hide.
-3. **Working browser deployment** — train once in Python, run anywhere via ONNX, validated end-to-end on a real car with our own collected data.
+3. **Working browser deployment** — train once in Python, run anywhere via ONNX, validated end-to-end on a real car with **10 trips, 43,869 samples, 12.2 hours** of our own collected data.
+
+---
 
 ## License
 

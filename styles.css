@@ -2378,19 +2378,79 @@ table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scro
   .hero-glow, #hero::after, .logo-mark { animation: none !important; }
 }
 
-@media (max-width: 640px) {
-  .verdict-gauge, .gauge-container, .verdict-display,
-  .verdict-svg, .verdict-card {
-    overflow: visible !important;
-    max-width: 100%;
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #1E3A5F;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav-toggle:hover {
+  background: #F8FAFC;
+  border-color: rgba(15, 23, 42, 0.18);
+}
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.35);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+@media (max-width: 760px) {
+  .nav-toggle { display: flex; }
+  .main-nav {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 12px 0;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    transform: translateY(-110%);
+    transition: transform 0.28s ease;
+    z-index: 100;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
   }
-  .verdict-gauge svg, .verdict-svg, .gauge-svg {
-    width: 100%;
-    height: auto;
-    max-width: 320px;
-    display: block;
-    margin: 0 auto;
+  .main-nav a {
+    padding: 14px 24px !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    font-size: 16px !important;
+    text-align: left !important;
   }
-  .verdict-label, .gauge-value { font-size: 18px; }
-  .finding-banner, #field-banner { display: none !important; }
+  .main-nav a:last-child { border-bottom: none; }
+  body.nav-open .main-nav { transform: translateY(0); }
+  body.nav-open .nav-backdrop { display: block; opacity: 1; }
+  body.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  body.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  body.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .install-btn { padding: 8px 12px; font-size: 13px; }
+}
+
+@media (max-width: 380px) {
+  .install-btn { padding: 8px 10px; font-size: 12px; }
+  .install-btn span { display: none; }
 }

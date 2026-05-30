@@ -213,6 +213,16 @@ async function loadFieldValidation() {
     setText('nav-field-trips', nTrips);
     setText('nav-field-hours', hours.toFixed(1));
 
+    const banner = document.getElementById('field-banner');
+    if (banner) {
+      if (nTrips < 5) {
+        banner.hidden = false;
+        setText('field-banner-trips', nTrips);
+      } else {
+        banner.hidden = true;
+      }
+    }
+
     console.log(`Field validation loaded: ${nTrips} trips, ${hours.toFixed(1)} h, ${samples.toLocaleString()} samples`);
   } catch (e) {
     console.warn('loadFieldValidation failed:', e);
@@ -616,3 +626,34 @@ const HARDCODED_VED_TOP20 = [
   { rank: 9,  vehicle_id: 569, trip_id: 750,  anomaly_score: 0.681, speed_mean: 84.8,  rpm_max: 3000, idle_fraction: 0.010, duration_sec: 4386 },
   { rank: 10, vehicle_id: 569, trip_id: 358,  anomaly_score: 0.680, speed_mean: 23.9,  rpm_max: 2407, idle_fraction: 0.272, duration_sec: 4569 },
 ];
+
+(function () {
+  const navToggle = document.getElementById('nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+  const backdrop = document.getElementById('nav-backdrop');
+  if (!navToggle || !mainNav) return;
+
+  function setOpen(open) {
+    document.body.classList.toggle('nav-open', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  navToggle.addEventListener('click', function () {
+    const open = !document.body.classList.contains('nav-open');
+    setOpen(open);
+  });
+
+  mainNav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setOpen(false); });
+  });
+
+  if (backdrop) {
+    backdrop.addEventListener('click', function () { setOpen(false); });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+      setOpen(false);
+    }
+  });
+})();
